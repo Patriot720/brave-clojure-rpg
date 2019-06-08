@@ -3,4 +3,4 @@
             [brave-clojure-rpg.dialog-controller :as di]))
 
 (deftest start-a-dialog
-  (is (= (di/start (SimpleDialog. "lulz")) "Dialog is started")))
+  (is (= (di/start (di/->SimpleDialog "lulz")) "Started a dialog")))
