@@ -5,6 +5,6 @@
   "Control dialog reactions"
   (start [x] "Start a dialog"))
 
-(defrecord SimpleDialog [title]
+(defrecord SimpleDialog [dialog]
   Dialog
-  (start [dialog] "Started a dialog"))
+  (start [dialog] (->SimpleDialog (assoc-in dialog [:finished] 1))))
