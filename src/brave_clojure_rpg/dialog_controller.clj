@@ -3,8 +3,11 @@
 
 (defprotocol Dialog
   "Control dialog reactions"
-  (start [x] "Start a dialog"))
+  (print [x] "Print a dialog"))
 
-(defrecord SimpleDialog [dialog]
+(defrecord SimpleDialog [title choices]
   Dialog
-  (start [dialog] (->SimpleDialog (assoc-in dialog [:finished] 1))))
+  (print [dialog]
+    (println title)
+    (doseq [choice (keys choices) i (range 1 (+ (count choices) 1))]
+      (println (str i ":" choice)))))
