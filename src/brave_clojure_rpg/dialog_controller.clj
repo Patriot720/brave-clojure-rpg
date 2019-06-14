@@ -3,11 +3,13 @@
 
 (defprotocol Dialog
   "Control dialog reactions"
+  (start [dialog])
   (print [x] "Print a dialog")
   (choose [dialog choice] "returns next dialog based on choice"))
 
 (defrecord SimpleDialog [title choices]
   Dialog
+  (start [dialog] (print dialog) (choose dialog (Integer. (read-line))))
   (print [dialog]
     (println title)
     (doseq [choice (keys choices) i (range 1 (+ (count choices) 1))]

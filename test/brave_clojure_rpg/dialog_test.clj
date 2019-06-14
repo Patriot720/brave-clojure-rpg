@@ -9,4 +9,6 @@
          (with-out-str (di/print dialog))
          "lulz\r\n1:Fuck the police\r\n")))
   (deftest choosing-dialog-variant-should-return-new-dialog
-    (is (= (di/choose dialog 1)  other_dialog))))
+    (is (= (di/choose dialog 1)  other_dialog)))
+  (deftest start-dialog-should-return-new-dialog
+    (with-in-str "1" (is (= (di/start dialog) other_dialog)))))
