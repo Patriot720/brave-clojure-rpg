@@ -12,3 +12,7 @@
     (is (= (di/choose dialog 1)  other_dialog)))
   (deftest start-dialog-should-return-new-dialog
     (with-in-str "1" (is (= (di/start dialog) other_dialog)))))
+
+(deftest parse-dialog-tree-from-file-test
+  (let [file (slurp "example_dialog.json")]
+    (di/parse-dialog-from-file file)))

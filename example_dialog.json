@@ -1,0 +1,11 @@
+{
+    title:"You ded",
+    choices:{
+        "Kill everyone":{
+            title:"You win"
+        },
+        "Kill yourself":{
+            title:"You god"
+        }
+    }
+}
