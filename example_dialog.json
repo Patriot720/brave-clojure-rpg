@@ -1,11 +1,9 @@
-{
-    title:"You ded",
-    choices:{
-        "Kill everyone":{
-            title:"You win"
-        },
-        "Kill yourself":{
-            title:"You god"
-        }
-    }
-}
+[
+    "Kill everyone"
+    "You fucked up everyone"
+    [
+        ["Wtf"
+        "other stuff happened"
+        []]
+    ]
+]
