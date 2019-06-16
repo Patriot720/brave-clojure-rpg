@@ -4,12 +4,15 @@
 
 (let [other_dialog (di/->SimpleDialog "Fuck the police" "other_dialog" [])
       dialog (di/->SimpleDialog "lulz" "wtf" [other_dialog])]
+
   (deftest print-a-dialog
     (is (=
          (with-out-str (di/print dialog))
          "lulz\r\n1:Fuck the police\r\n")))
+
   (deftest choosing-dialog-variant-should-return-new-dialog
     (is (= (di/choose dialog 1)  other_dialog)))
+
   (deftest start-dialog-should-recursively-choose-dialogs
     (with-in-str "1" (is (= (di/start dialog) other_dialog)))))
 

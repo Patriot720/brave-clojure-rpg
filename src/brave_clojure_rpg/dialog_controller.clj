@@ -2,6 +2,7 @@
   (:require [clojure.data.json :as json])
   (:gen-class))
 (declare parse-dialog-json)
+
 (defprotocol Dialog
   "Control dialog reactions"
   (start [dialog])
