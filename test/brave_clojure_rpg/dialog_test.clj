@@ -20,4 +20,4 @@
   (let [file (slurp "example_dialog.json")]
     (is (= (di/parse-dialog-from-file file)
            (di/->SimpleDialog "Kill everyone" "You fucked up everyone"
-                              [di/->SimpleDialog "Wtf" "other stuff happened" ()])))))
+                              [(di/->SimpleDialog "Wtf" "other stuff happened" ())])))))
