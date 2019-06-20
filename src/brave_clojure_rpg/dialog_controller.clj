@@ -19,7 +19,7 @@
   (choose [dialog choice]  (get choices  (- choice 1))))
 
 (defrecord BattleDialog [title description hero enemy
-                         win-dialog lose-dialog])
+                         win-dialog])
 
 (defn parse-dialog-from-file [file]
   (parse-dialog-json (json/read-str file)))
