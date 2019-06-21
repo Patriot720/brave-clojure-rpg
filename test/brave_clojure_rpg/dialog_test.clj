@@ -21,3 +21,10 @@
     (is (= (di/parse-dialog-from-file file)
            (di/->SimpleDialog "Kill everyone" "You fucked up everyone"
                               [(di/->SimpleDialog "Wtf" "other stuff happened" ())])))))
+
+(deftest start-battle-dialog
+    (with-in-str "1"
+    (let [battle-dialog (di/->BattleDialog "Battle" "some battle"
+    (is (= (di
+)
+)
