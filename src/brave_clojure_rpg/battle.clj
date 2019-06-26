@@ -12,3 +12,4 @@
          (Double/parseDouble (format "%.1f" (-
                                              (get enemy :hp)
                                              (float (/ (get-in hero [:weapons weapon]) (reduce  #(+ %1 %2) (vals (get enemy :equipment))))))))))
+(defrecord Person [name hp weapons equipment])
