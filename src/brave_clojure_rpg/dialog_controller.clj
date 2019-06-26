@@ -21,6 +21,12 @@
 (defrecord BattleDialog [title description hero enemy
                          win-dialog])
 
+(defn print-dialog [dialog]
+  (if (satisfies? Dialog dialog)
+    (println (:title dialog)))
+  (doseq [choice  (:choices dialog) i (range 1 (+ (count (:choices dialog)) 1))]
+    (println (str i ":" (:title choice)))))
+
 (defn parse-dialog-from-file [file]
   (parse-dialog-json (json/read-str file)))
 

@@ -7,8 +7,8 @@
 
   (deftest print-a-dialog
     (is (=
-         (with-out-str (di/print dialog))
-         "lulz\r\n1:Fuck the police\r\n")))
+         (with-out-str (di/print-dialog dialog))
+         "lulz\n1:Fuck the police\n")))
 
   (deftest choosing-dialog-variant-should-return-new-dialog
     (is (= (di/choose dialog 1)  other_dialog)))
@@ -21,10 +21,3 @@
     (is (= (di/parse-dialog-from-file file)
            (di/->SimpleDialog "Kill everyone" "You fucked up everyone"
                               [(di/->SimpleDialog "Wtf" "other stuff happened" ())])))))
-
-(deftest start-battle-dialog
-    (with-in-str "1"
-    (let [battle-dialog (di/->BattleDialog "Battle" "some battle"
-    (is (= (di
-)
-)
