@@ -13,5 +13,5 @@
        "Started battle with Gremlin\nYour hp is:10\nHis hp is:1\nYour move\n")))
 
 (deftest attack-test
-  (is (= (bt/attack hero enemy :spear)
-         (assoc enemy :hp 0.9))))
+  (is (= (bt/calculate-damage hero enemy :spear)
+         297/100)))

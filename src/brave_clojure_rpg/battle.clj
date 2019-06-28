@@ -8,12 +8,15 @@
   (println "Your move"))
 
 (defprotocol Warrior
-  (calculate-damage [hero enemy weapon]))
+  (calculate-damage [hero enemy weapon])
+  (calculate-armour [person]))
 
+(declare calculate-armour)
 (defrecord Person [name hp weapons equipment]
   Warrior
   (calculate-damage [hero enemy weapon]
-    (assoc enemy :hp
-           (Double/parseDouble (format "%.1f" (-
-                                               (get enemy :hp)
-                                               (float (/ (get-in hero [:weapons weapon]) (reduce  #(+ %1 %2) (vals (get enemy :equipment)))))))))))
+    (let [pure-dmg (get-in hero [:weapons weapon])
+          armor-deflection (/ (calculate-armour enemy) 100)]
+      (- pure-dmg (* armor-deflection pure-dmg))))
+  (calculate-armour [person]
+    (reduce + (vals (:weapons person)))))
