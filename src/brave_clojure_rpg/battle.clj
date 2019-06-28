@@ -6,11 +6,13 @@
   (println (str "Your hp is:" (:hp hero)))
   (println (str "His hp is:" (:hp enemy)))
   (println "Your move"))
+
 (defprotocol Warrior
-  (attack [hero enemy weapon]))
+  (calculate-damage [hero enemy weapon]))
+
 (defrecord Person [name hp weapons equipment]
   Warrior
-  (attack [hero enemy weapon]
+  (calculate-damage [hero enemy weapon]
     (assoc enemy :hp
            (Double/parseDouble (format "%.1f" (-
                                                (get enemy :hp)
