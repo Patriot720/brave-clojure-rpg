@@ -2,7 +2,7 @@
   (:require [clojure.data.json :as json])
   (:require [brave-clojure-rpg.battle :as bt])
   (:gen-class))
-(declare parse-dialog-json)
+(declare parse-dialog-json get-weapon-dmg-nth)
 
 (defprotocol Dialog
   "Control dialog reactions"
@@ -24,20 +24,23 @@
   Dialog
   (display [dialog])
   (choose [dialog choice]
-    (let [damage (bt/calculate-damage hero enemy choice)
-          hero-damage (bt/calculate-damage enemy hero 0)]
+    (let [damage (bt/calculate-damage hero enemy
+                                      (get-weapon-dmg-nth hero choice))
+          hero-damage (bt/calculate-damage enemy hero
+                                           (get-weapon-dmg-nth enemy 0))]
       (println (str (:name enemy) " attacked for " hero-damage " damage"))
       (if (<= (:hp enemy) 0)
         win-dialog)
       (if (<= (:hp hero) 0) false)
       (->BattleDialog
        title description
-       (update hero :hp hero-damage)
-       (update enemy :hp damage)
+       (assoc hero :hp hero-damage)
+       (assoc enemy :hp damage)
        win-dialog))))
 (defn parse-dialog-from-file [file]
   (parse-dialog-json (json/read-str file)))
-
+(defn get-weapon-dmg-nth [person choice]
+  (nth (keys (:weapons person)) choice 0))
 (defn- parse-dialog-json ([json]
                           (->SimpleDialog (first json)
                                           (nth json 1)
