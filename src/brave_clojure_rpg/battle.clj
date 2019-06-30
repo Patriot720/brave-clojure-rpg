@@ -15,8 +15,10 @@
 (defrecord Person [name hp weapons equipment]
   Warrior
   (calculate-damage [hero enemy weapon]
-    (let [pure-dmg (get-in hero [:weapons weapon])
-          armor-deflection (/ (calculate-armour enemy) 100)]
-      (- pure-dmg (* armor-deflection pure-dmg))))
+    (let [base-damage (get-in hero [:weapons weapon])]
+      (let [pure-dmg
+            (if (= (rand-int 5) 4) (* 2 base-damage) base-damage)
+            armor-deflection (/ (calculate-armour enemy) 100)]
+        (- pure-dmg (* armor-deflection pure-dmg)))))
   (calculate-armour [person]
     (reduce + (vals (:weapons person)))))
