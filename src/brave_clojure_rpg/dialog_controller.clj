@@ -1,5 +1,6 @@
 (ns brave-clojure-rpg.dialog-controller
   (:require [clojure.data.json :as json])
+  (:require [brave-clojure-rpg.battle :as bt])
   (:gen-class))
 (declare parse-dialog-json)
 
@@ -22,7 +23,18 @@
                          win-dialog]
   Dialog
   (display [dialog])
-  (choose [dialog choice]))
+  (choose [dialog choice]
+    (let [damage (bt/calculate-damage hero enemy choice)
+          hero-damage (bt/calculate-damage enemy hero 0)]
+      (println (str (:name enemy) " attacked for " hero-damage " damage"))
+      (if (<= (:hp enemy) 0)
+        win-dialog)
+      (if (<= (:hp hero) 0) false)
+      (->BattleDialog
+       title description
+       (update hero :hp hero-damage)
+       (update enemy :hp damage)
+       win-dialog))))
 (defn parse-dialog-from-file [file]
   (parse-dialog-json (json/read-str file)))
 

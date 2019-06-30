@@ -15,7 +15,7 @@
 (deftest attack-test
   (is (= (bt/calculate-damage hero enemy :spear)
          297/100)))
-; Random generated result test 
+; Random generated result test
 (deftest attack-critical-hit-test
   (is
    (some #{297/50} (map  (fn [x] (bt/calculate-damage hero enemy :spear))
