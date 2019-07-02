@@ -22,7 +22,10 @@
 (defrecord BattleDialog [title description hero enemy
                          win-dialog]
   Dialog
-  (display [dialog])
+  (display [dialog]
+    (println "Battling with " (:name enemy))
+    (println "Your hp " (:hp hero))
+    (println "Enemy hp " (:hp enemy)))
   (choose [dialog choice]
     (let [damage (bt/calculate-damage hero enemy
                                       (get-weapon-dmg-nth hero choice))
@@ -37,10 +40,13 @@
        (assoc hero :hp hero-damage)
        (assoc enemy :hp damage)
        win-dialog))))
+
 (defn parse-dialog-from-file [file]
   (parse-dialog-json (json/read-str file)))
+
 (defn get-weapon-dmg-nth [person choice]
   (nth (keys (:weapons person)) choice 0))
+
 (defn- parse-dialog-json ([json]
                           (->SimpleDialog (first json)
                                           (nth json 1)

@@ -30,4 +30,7 @@
     (is (= (di/get-weapon-dmg-nth hero 0) :spear))
     (is (= (di/get-weapon-dmg-nth hero 1) 0)))
   (deftest battle-dialog-choice-test
-    (is (not (nil? (di/choose dialog 0))))))
+    (is (not (nil? (di/choose dialog 0)))))
+  (deftest battle-dialog-display-test
+    (is (= (with-out-str (di/display dialog))
+           "Battling with  Hero\nYour hp  10\nEnemy hp  5\n"))))
