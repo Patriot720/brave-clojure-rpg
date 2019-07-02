@@ -33,4 +33,4 @@
     (is (not (nil? (di/choose dialog 0)))))
   (deftest battle-dialog-display-test
     (is (= (with-out-str (di/display dialog))
-           "Battling with  Hero\nYour hp  10\nEnemy hp  5\n"))))
+           "Battling with  Hero\nYour hp  10\nEnemy hp  5\nAttack with: \n\n1 : :spear   25  Damage\n"))))

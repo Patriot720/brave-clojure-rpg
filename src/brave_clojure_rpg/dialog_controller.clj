@@ -25,7 +25,11 @@
   (display [dialog]
     (println "Battling with " (:name enemy))
     (println "Your hp " (:hp hero))
-    (println "Enemy hp " (:hp enemy)))
+    (println "Enemy hp " (:hp enemy))
+    (println "Attack with: \n")
+    (doseq [weapon-choice (:weapons hero)
+            i (range 1 (+ (count (:weapons hero)) 1))]
+      (println i ":" (first weapon-choice) " " (last weapon-choice) " Damage")))
   (choose [dialog choice]
     (let [damage (bt/calculate-damage hero enemy
                                       (get-weapon-dmg-nth hero choice))
