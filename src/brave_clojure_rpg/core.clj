@@ -7,6 +7,7 @@
   [& args]
   (println "Hello, World!"))
 (def ^:dynamic input (fn [] 0))
+
 (defn start-dialog [dialog]
   (di/display dialog)
   (let [next_dialog (di/choose dialog (Integer. (input)))]

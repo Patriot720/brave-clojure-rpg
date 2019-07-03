@@ -9,7 +9,7 @@
   (deftest print-a-dialog
     (is (=
          (with-out-str (di/display dialog))
-         "lulz\n0:Fuck the police\n")))
+         "lulz\nwtf\n0:Fuck the police\n")))
 
   (deftest choosing-dialog-variant-should-return-new-dialog
     (is (= (di/choose dialog 0)  other_dialog))))

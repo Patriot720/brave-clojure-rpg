@@ -1,25 +1,22 @@
 (ns brave-clojure-rpg.dialog-controller
   (:require [clojure.data.json :as json])
-  (:require [brave-clojure-rpg.battle :as bt])
+  (:require [brave-clojure-rpg.battle :as person])
   (:gen-class))
-(declare parse-dialog-json get-weapon-dmg-nth)
+(declare parse-dialog-json get-weapon-dmg-nth
+         print-choices print-weapon-choices)
 
 (defprotocol Dialog
   "Control dialog reactions"
   (display [x] "Print a dialog")
   (choose [dialog choice] "returns next dialog based on choice"))
 
-(defn- print-choices [choices]
-  (doseq [choice  choices i (range 0 (count choices))]
-    (println (str i ":" (:title choice)))))
-
 (defrecord SimpleDialog [title description choices]
   Dialog
   (display [dialog]
     (println title)
-    (print-choices choices))
+    (println description)
+    (print-choices choices "%d:%s"))
   (choose [dialog choice]  (get choices  choice)))
-
 (defrecord BattleDialog [title description hero enemy
                          win-dialog]
   Dialog
@@ -28,23 +25,30 @@
     (println "Your hp " (:hp hero))
     (println "Enemy hp " (:hp enemy))
     (println "Attack with: \n")
-    (doseq [weapon-choice (:weapons hero)
-            i (range 1 (+ (count (:weapons hero)) 1))]
-      (println i ":" (first weapon-choice) " " (last weapon-choice) " Damage")))
+    (print-weapon-choices (:weapons hero)))
   (choose [dialog choice]
-    (let [damage (bt/calculate-damage hero enemy
-                                      (get-weapon-dmg-nth hero choice))
-          hero-damage (bt/calculate-damage enemy hero
-                                           (get-weapon-dmg-nth enemy 0))]
-      (println (str (:name enemy) " attacked for " hero-damage " damage"))
-      (if (<= (:hp enemy) 0)
-        win-dialog)
-      (if (<= (:hp hero) 0) false)
+    (let [damage (person/calculate-damage hero enemy
+                                          (get-weapon-dmg-nth hero choice))
+          damage-to-hero (person/calculate-damage enemy hero
+                                                  (get-weapon-dmg-nth enemy 0))]
+      (println (:name enemy) " attacked for " damage-to-hero " damage")
+      (if (person/dead? enemy) win-dialog)
+      (if (person/dead? hero) false)
       (->BattleDialog
        title description
-       (assoc hero :hp hero-damage)
-       (assoc enemy :hp damage)
+       (person/damage hero damage-to-hero)
+       (person/damage enemy damage)
        win-dialog))))
+
+(defn- print-choices [choices fmt]
+  (doseq [choice  choices i (range 0 (count choices))]
+    (println (format fmt i (:title choice)))))
+
+(defn- print-weapon-choices [choices]
+  (doseq [weapon-choice choices
+          i (range 1 (+ (count choices) 1))]
+    (println i ":" (first weapon-choice) " " (last weapon-choice) " Damage")))
+; Macro???
 
 (defn parse-dialog-from-file [file]
   (parse-dialog-json (json/read-str file)))
