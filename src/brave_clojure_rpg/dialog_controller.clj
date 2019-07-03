@@ -9,15 +9,16 @@
   (display [x] "Print a dialog")
   (choose [dialog choice] "returns next dialog based on choice"))
 
-(defn start [dialog] (display dialog) (choose dialog (Integer. (read-line))))
+(defn- print-choices [choices]
+  (doseq [choice  choices i (range 0 (count choices))]
+    (println (str i ":" (:title choice)))))
 
 (defrecord SimpleDialog [title description choices]
   Dialog
   (display [dialog]
     (println title)
-    (doseq [choice  choices i (range 1 (+ (count choices) 1))]
-      (println (str i ":" (:title choice)))))
-  (choose [dialog choice]  (get choices  (- choice 1))))
+    (print-choices choices))
+  (choose [dialog choice]  (get choices  choice)))
 
 (defrecord BattleDialog [title description hero enemy
                          win-dialog]

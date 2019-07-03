@@ -19,4 +19,4 @@
 (deftest attack-critical-hit-test
   (is
    (some #{297/50} (map  (fn [x] (bt/calculate-damage hero enemy :spear))
-                         (range 10)))))
+                         (range 50)))))

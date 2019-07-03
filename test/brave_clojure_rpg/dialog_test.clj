@@ -9,13 +9,10 @@
   (deftest print-a-dialog
     (is (=
          (with-out-str (di/display dialog))
-         "lulz\n1:Fuck the police\n")))
+         "lulz\n0:Fuck the police\n")))
 
   (deftest choosing-dialog-variant-should-return-new-dialog
-    (is (= (di/choose dialog 1)  other_dialog)))
-
-  (deftest start-dialog-should-recursively-choose-dialogs
-    (with-in-str "1" (is (= (di/start dialog) other_dialog)))))
+    (is (= (di/choose dialog 0)  other_dialog))))
 
 (deftest parse-dialog-tree-from-file-test
   (let [file (slurp "example_dialog.json")]

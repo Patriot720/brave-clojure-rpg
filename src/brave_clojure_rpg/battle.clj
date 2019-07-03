@@ -1,5 +1,6 @@
 (ns brave-clojure-rpg.battle
   (:gen-class))
+(declare critical-hit? armor-deflection get-weapon-dmg)
 
 (defn print-battle-status [hero enemy]
   (println (str "Started battle with " (:name enemy)))
@@ -9,16 +10,23 @@
 
 (defprotocol Warrior
   (calculate-damage [hero enemy weapon])
-  (calculate-armour [person]))
+  (calculate-armor [person]))
 
-(declare calculate-armour)
 (defrecord Person [name hp weapons equipment]
   Warrior
   (calculate-damage [hero enemy weapon]
-    (let [base-damage (get-in hero [:weapons weapon])]
-      (let [pure-dmg
-            (if (= (rand-int 5) 4) (* 2 base-damage) base-damage)
-            armor-deflection (/ (calculate-armour enemy) 100)]
-        (- pure-dmg (* armor-deflection pure-dmg)))))
-  (calculate-armour [person]
+    (let [base-dmg (if (critical-hit?)
+                     (* 2 (get-weapon-dmg hero weapon))
+                     (get-weapon-dmg hero weapon))]
+      (- base-dmg (* (armor-deflection enemy) base-dmg))))
+  (calculate-armor [person]
     (reduce + (vals (:weapons person)))))
+
+(defn- armor-deflection [hero]
+  (/ (calculate-armor hero) 100))
+
+(defn- critical-hit? []
+  (= (rand-int 5) 4))
+
+(defn- get-weapon-dmg [hero weapon]
+  (get-in hero [:weapons weapon]))
