@@ -2,12 +2,6 @@
   (:gen-class))
 (declare critical-hit? armor-deflection get-weapon-dmg)
 
-(defn print-battle-status [hero enemy]
-  (println (str "Started battle with " (:name enemy)))
-  (println (str "Your hp is:" (:hp hero)))
-  (println (str "His hp is:" (:hp enemy)))
-  (println "Your move"))
-
 (defprotocol Warrior
   (calculate-damage [hero enemy weapon])
   (calculate-armor [person]))

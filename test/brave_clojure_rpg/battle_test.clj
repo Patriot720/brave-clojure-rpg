@@ -7,11 +7,6 @@
 (def enemy
   (bt/->Person "Gremlin" 1 {:hands 1} {:one-true-ring 50}))
 
-(deftest initalizing-battle-test
-  (is (=
-       (with-out-str (bt/print-battle-status hero enemy))
-       "Started battle with Gremlin\nYour hp is:10\nHis hp is:1\nYour move\n")))
-
 (deftest attack-test
   (is (= (bt/calculate-damage hero enemy :spear)
          297/100)))
