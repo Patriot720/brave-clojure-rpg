@@ -2,6 +2,13 @@
   (:require [clojure.test :refer [testing deftest is]]
             [brave-clojure-rpg.dialog-controller :as di]
             [brave-clojure-rpg.battle :as bt]))
+(deftest parse-dialog-tree-from-file-test
+  (let [file (slurp "example_dialog.json")]
+    (is (= (di/parse-dialog-from-file file)
+           (di/->SimpleDialog "Kill everyone" "You fucked up everyone"
+                              [(di/->SimpleDialog "Wtf" "other stuff happened" [])])))
+    (is (= (di/choose (di/parse-dialog-from-file file) 0)
+           (di/->SimpleDialog "Wtf" "other stuff happened" ())))))
 
 (let [other_dialog (di/->SimpleDialog "Fuck the police" "other_dialog" [])
       dialog (di/->SimpleDialog "lulz" "wtf" [other_dialog])]
@@ -14,11 +21,6 @@
   (deftest choosing-dialog-variant-should-return-new-dialog
     (is (= (di/choose dialog 0)  other_dialog))))
 
-(deftest parse-dialog-tree-from-file-test
-  (let [file (slurp "example_dialog.json")]
-    (is (= (di/parse-dialog-from-file file)
-           (di/->SimpleDialog "Kill everyone" "You fucked up everyone"
-                              [(di/->SimpleDialog "Wtf" "other stuff happened" ())])))))
 (let [hero (bt/->Person "Hero" 10 {:spear 25} {})
       gremlin (bt/->Person "Hero" 5 {:gg 2} {})
       win-dialog (di/->SimpleDialog "f" "f" [])

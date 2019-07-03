@@ -6,9 +6,9 @@
   "I don't do a whole lot ... yet."
   [& args]
   (println "Hello, World!"))
-(def ^:dynamic input (fn [] 0))
-
+(def ^:dynamic input (fn [] 25))
 (defn start-dialog [dialog]
   (di/display dialog)
   (let [next_dialog (di/choose dialog (Integer. (input)))]
-    (println next_dialog)))
+    (if next_dialog
+      (start-dialog next_dialog))))
