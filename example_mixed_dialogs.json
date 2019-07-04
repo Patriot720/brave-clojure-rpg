@@ -1,0 +1,22 @@
+{
+    "hero": {
+        "name" : "Vassa",
+        "hp" : 20,
+    },
+    "dialogs": [
+        "Battle with gremlin"
+        ""
+        {
+            "name" : "Gremlin",
+            "hp" : 20,
+            "weapons": {
+                "hands": 25
+            }
+        }
+        [
+            "Winner"
+            "Chicken dinner"
+            []
+        ]
+    ]
+}

@@ -15,7 +15,13 @@
   (testing "Battle dialog parsing"
     (let [file (slurp "example_mixed_dialogs.json")]
       (testing "Should return battle dialog with simple nested win dialog"
-        (is (= (di/parse-dialog-from-file file)))))))
+        (is (= (di/parse-dialog-from-file file)
+               (di/->BattleDialog "Battle" "With gremlin"
+                                  (bt/->Person "Hero" 20 {:spear 10} {})
+                                  (bt/->Person "Gremlin" 5 {:hands 1} {})
+                                  (di/->SimpleDialog "next" "dialog" []))))))))
+; TODO test no weapons enemy
+; TODO test no equipment hero,enemy
 (deftest simple-dialog-test
   (let [other_dialog (di/->SimpleDialog "Fuck the police" "other_dialog" [])
         dialog (di/->SimpleDialog "lulz" "wtf" [other_dialog])]

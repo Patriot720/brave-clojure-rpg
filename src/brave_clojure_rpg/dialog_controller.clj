@@ -59,4 +59,5 @@
 (defn- parse-dialog-json ([json]
                           (->SimpleDialog (first json)
                                           (nth json 1)
-                                          (into [] (map (fn [item] (parse-dialog-json item)) (last json))))))
+                                          (into [] (map
+                                                    (fn [item] (parse-dialog-json item)) (last json))))))
