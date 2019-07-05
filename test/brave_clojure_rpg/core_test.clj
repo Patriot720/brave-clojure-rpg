@@ -1,6 +1,6 @@
 (ns brave-clojure-rpg.core-test
   (:require [clojure.test :refer [testing deftest is]]
-            [brave-clojure-rpg.dialog-controller :as di]
+            [brave-clojure-rpg.dialog :as di]
             [brave-clojure-rpg.core :as d]))
 
 (defn my-read-line [] 0)

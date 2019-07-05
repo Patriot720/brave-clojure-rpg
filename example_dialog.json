@@ -1,4 +1,5 @@
-[
+{
+"dialogs":[
     "Kill everyone"
     "You fucked up everyone"
     [
@@ -7,3 +8,4 @@
         []]
     ]
 ]
+}
