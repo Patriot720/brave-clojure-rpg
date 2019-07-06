@@ -53,9 +53,11 @@
   (let [hero (bt/->Person "Hero" 10 {:spear 25} {})
         gremlin (bt/->Person "Hero" 5 {:gg 2} {})
         win-dialog (Dialogs/->SimpleDialog "f" "f" {} [])
-        dialog (Dialogs/->BattleDialog "the battle" "" hero gremlin win-dialog)] (testing "Choose shouldn't return nill"
-                                                                                   (is (not (nil? (Dialogs/choose dialog 0)))))
+        dialog (Dialogs/->BattleDialog "the battle" "" hero gremlin win-dialog)]
 
-       (testing "Display dialog should return battle status"
-         (is (= (with-out-str (Dialogs/display dialog))
-                "Battling with  Hero\nYour hp  10\nEnemy hp  5\nAttack with: \n\n1 : :spear   25  Damage\n")))))
+    (testing "Choose shouldn't return nill"
+      (is (not (nil? (Dialogs/choose dialog 0)))))
+
+    (testing "Display dialog should return battle status"
+      (is (= (with-out-str (Dialogs/display dialog))
+             "Battling with  Hero\nYour hp  10\nEnemy hp  5\nAttack with: \n\n1 : :spear   25  Damage\n")))))

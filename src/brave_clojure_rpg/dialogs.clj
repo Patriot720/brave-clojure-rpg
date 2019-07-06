@@ -2,7 +2,7 @@
   (:require [clojure.data.json :as json])
   (:require [brave-clojure-rpg.person :as person])
   (:gen-class))
-(declare parse-dialog-json get-nth-weapon
+(declare get-weapon-dmg parse-dialog-json get-nth-weapon
          print-choices print-weapon-choices)
 
 (defprotocol Dialog
@@ -19,6 +19,7 @@
   (choose [dialog choice]
     (if-let [next_dialog (get choices  choice)]
       (assoc  next_dialog :hero hero))))
+
 (defrecord BattleDialog [title description hero enemy
                          win-dialog]
   Dialog
@@ -29,26 +30,25 @@
     (println "Attack with: \n")
     (print-weapon-choices (:weapons hero)))
   (choose [dialog choice]
-    (let [damage (person/calculate-damage hero enemy
-                                          (get-nth-weapon hero choice))
-          damage-to-hero (person/calculate-damage enemy hero
-                                                  (get-nth-weapon enemy 0))]
-      (println (:name enemy) " attacked for " damage-to-hero " damage")
-      (if (person/dead? enemy) win-dialog)
-      (if (person/dead? hero) false)
-      (->BattleDialog
-       title description
-       (person/damage hero damage-to-hero)
-       (person/damage enemy damage)
-       win-dialog))))
+
+    (if (person/dead? enemy) win-dialog)
+    (if (person/dead? hero) false)
+    (->BattleDialog
+     title description
+     (person/damage hero (get-weapon-dmg enemy 0))
+     (person/damage enemy (get-weapon-dmg hero choice))
+     win-dialog)))
 
 (defn parse-dialog-from-file [file]
   (let [json (json/read-str file :key-fn keyword)
         hero (:hero json)]
     (parse-dialog-json (if hero (person/map->Person (:hero json {})) {}) (get  json :dialogs))))
 
-(defn get-nth-weapon [person choice]
-  (nth (keys (:weapons person)) choice 0))
+(defmulti get-weapon-dmg (fn [person choice] (class choice)))
+(defmethod get-weapon-dmg java.lang.Long [person choice]
+  (get-in person [:weapons (nth (keys (:weapons person)) choice 0)]))
+(defmethod get-weapon-dmg clojure.lang.Keyword [person weapon]
+  (get-in person [:weapons weapon]))
 
 (defn- parse-dialog-json ([hero json]
                           (if (= (count json) 4)
