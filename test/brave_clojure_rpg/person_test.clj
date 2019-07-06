@@ -1,6 +1,6 @@
-(ns brave-clojure-rpg.battle-test
+(ns brave-clojure-rpg.person-test
   (:require [clojure.test :refer [testing deftest is]]
-            [brave-clojure-rpg.battle :as bt]))
+            [brave-clojure-rpg.person :as bt]))
 
 (def hero
   (bt/->Person "Hero" 10 {:spear 3} {:headgear 3}))

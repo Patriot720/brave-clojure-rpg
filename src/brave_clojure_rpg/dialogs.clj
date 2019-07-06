@@ -1,6 +1,6 @@
-(ns brave-clojure-rpg.dialog
+(ns brave-clojure-rpg.dialogs
   (:require [clojure.data.json :as json])
-  (:require [brave-clojure-rpg.battle :as person])
+  (:require [brave-clojure-rpg.person :as person])
   (:gen-class))
 (declare parse-dialog-json get-nth-weapon
          print-choices print-weapon-choices)
@@ -16,8 +16,9 @@
     (println title)
     (println description)
     (print-choices choices "%d:%s"))
-  (choose [dialog choice]  (assoc (get choices  choice) :hero hero)))
-
+  (choose [dialog choice]
+    (if-let [next_dialog (get choices  choice)]
+      (assoc  next_dialog :hero hero))))
 (defrecord BattleDialog [title description hero enemy
                          win-dialog]
   Dialog
@@ -41,6 +42,26 @@
        (person/damage enemy damage)
        win-dialog))))
 
+(defn parse-dialog-from-file [file]
+  (let [json (json/read-str file :key-fn keyword)
+        hero (:hero json)]
+    (parse-dialog-json (if hero (person/map->Person (:hero json {})) {}) (get  json :dialogs))))
+
+(defn get-nth-weapon [person choice]
+  (nth (keys (:weapons person)) choice 0))
+
+(defn- parse-dialog-json ([hero json]
+                          (if (= (count json) 4)
+                            (->BattleDialog (first json) (nth json 1) hero (person/map->Person (nth json 2)) (parse-dialog-json hero (last json)))
+                                ; TODO Same hero through the game
+                                ; TODO Person instead of shit for nth json 2
+                                ; TODO move to clj instead of json
+                            (->SimpleDialog (first json)
+                                            (nth json 1)
+                                            hero
+                                            (into [] (map
+                                                      (fn [item] (parse-dialog-json hero item)) (last json)))))))
+
 (defn- print-choices [choices fmt]
   (doseq [choice  choices i (range 0 (count choices))]
     (println (format fmt i (:title choice)))))
@@ -50,20 +71,3 @@
           i (range 1 (+ (count choices) 1))]
     (println i ":" (first weapon-choice) " " (last weapon-choice) " Damage")))
 ; Macro???
-
-(defn parse-dialog-from-file [file]
-  (parse-dialog-json (get (json/read-str file) "dialogs")))
-
-(defn get-nth-weapon [person choice]
-  (nth (keys (:weapons person)) choice 0))
-
-(defn- parse-dialog-json ([json]
-                          (if (= (count json) 4)
-                            (->BattleDialog (first json) (nth json 1) {} (nth json 2) (parse-dialog-json (last json)))
-                                ; TODO Same hero through the game
-                                ; TODO Person instead of shit for nth json 2
-                                ; TODO move to clj instead of json
-                            (->SimpleDialog (first json)
-                                            (nth json 1)
-                                            (into [] (map
-                                                      (fn [item] (parse-dialog-json item)) (last json)))))))

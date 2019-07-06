@@ -1,7 +1,8 @@
 {
     "hero": {
-        "name" : "Vassa",
+        "name" : "Hero",
         "hp" : 20,
+        "weapons": {"spear":10}
     },
     "dialogs": [
         "Battle with gremlin"
@@ -11,7 +12,8 @@
             "hp" : 20,
             "weapons": {
                 "hands": 25
-            }
+            },
+            "equipment":{}
         }
         [
             "Winner"

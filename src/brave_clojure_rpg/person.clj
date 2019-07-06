@@ -1,4 +1,4 @@
-(ns brave-clojure-rpg.battle
+(ns brave-clojure-rpg.person
   (:gen-class))
 (declare critical-hit? armor-deflection get-weapon-dmg)
 
