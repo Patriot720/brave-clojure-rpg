@@ -1,6 +1,6 @@
 (ns brave-clojure-rpg.core-test
   (:require [clojure.test :refer [testing deftest is]]
-            [brave-clojure-rpg.dialogs :as di]
+            [brave-clojure-rpg.parsing :refer [parse-dialog-from-file]]
             [brave-clojure-rpg.core :as d]))
 
 (defn my-read-line [] 0)
@@ -9,5 +9,5 @@
     (binding [d/input (fn [] 0)]
       (is (=
            (with-out-str
-             (d/start-dialog-loop (di/parse-dialog-from-file (slurp "example_dialog.json"))))
+             (d/start-dialog-loop (parse-dialog-from-file (slurp "example_dialog.json"))))
            "Kill everyone\nYou fucked up everyone\n0:Wtf\nWtf\nother stuff happened\n")))))
