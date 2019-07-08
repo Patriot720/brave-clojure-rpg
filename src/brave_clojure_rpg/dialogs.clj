@@ -1,5 +1,4 @@
 (ns brave-clojure-rpg.dialogs
-  (:require [clojure.data.json :as json])
   (:require [brave-clojure-rpg.person :as person])
   (:gen-class))
 
@@ -16,11 +15,11 @@
 (defn- print-weapon-choices [choices]
   (print-choices choices "%d : %s %s Damage" first last))
 
-(defmulti get-weapon-dmg (fn [person choice] (class choice)))
-(defmethod get-weapon-dmg java.lang.Long [person choice]
+(defn- get-weapon-dmg [person choice]
   (get-in person [:weapons (nth (keys (:weapons person)) choice 0)]))
-(defmethod get-weapon-dmg clojure.lang.Keyword [person weapon]
-  (get-in person [:weapons weapon]))
+
+(defn- pass-hero-to-next-dialog [dialog hero]
+  (assoc  dialog :hero hero))
 
 (defprotocol Dialog
   "Control dialog reactions"
@@ -35,7 +34,7 @@
     (print-simple-choices choices))
   (choose [dialog choice]
     (if-let [next_dialog (get choices  choice)]
-      (assoc  next_dialog :hero hero))))
+      (pass-hero-to-next-dialog next_dialog hero))))
 
 (defrecord BattleDialog [title description hero enemy
                          win-dialog]
@@ -49,7 +48,7 @@
     (print-weapon-choices (:weapons hero)))
 
   (choose [dialog choice]
-    (if (person/dead? enemy) win-dialog)
+    (if (person/dead? enemy) (pass-hero-to-next-dialog win-dialog hero))
     (if (person/dead? hero) false)
     (->BattleDialog
      title description
