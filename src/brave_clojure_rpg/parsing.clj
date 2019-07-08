@@ -3,10 +3,11 @@
   (:require [clojure.data.json :as json])
   (:require [brave-clojure-rpg.person :as person]))
 
+ ; TODO different condition instead of counting array (dictionary)
+ ; TODO add SideEffectDialog
 (defn- parse-dialog-json ([hero json]
                           (if (= (count json) 4)
                             (Dialogs/->BattleDialog (first json) (nth json 1) hero (person/map->Person (nth json 2)) (parse-dialog-json hero (last json)))
-                                ; TODO Same hero through the game
                             (Dialogs/->SimpleDialog (first json)
                                                     (nth json 1)
                                                     hero

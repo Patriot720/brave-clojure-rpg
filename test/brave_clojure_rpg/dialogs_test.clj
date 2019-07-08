@@ -20,13 +20,14 @@
             dialog (Dialogs/->SimpleDialog "lulz" "wtf" hero [simple-empty-dialog])]
         (is (= (:hero (Dialogs/choose dialog 0))
                hero))))))
-
+; TODO uncomment
 ; (deftest side-effect-dialog-test
 ;   (testing "Dialog choice that does damage to hero"
 ;     (let [dialog (Dialogs/->SideEffectDialog "lulz" "wtf"
 ;                                              (bt/->Person "Hero" 20 {} {}) [simple-empty-dialog])]
 ;       (is (= (:hp (:hero (Dialogs/choose dialog 0))) 15)))))
 
+; TODO go through battle dialog 
 (deftest battle-dialog-test
   (let [hero (->Person "Hero" 10 {:spear 25} {})
         gremlin (->Person "Hero" 5 {:gg 2} {})

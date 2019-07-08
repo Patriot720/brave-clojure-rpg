@@ -6,7 +6,6 @@
   "I don't do a whole lot ... yet."
   [& args]
   (println "Hello, World!"))
-
 (def ^:dynamic input (fn [] 25))
 (defn start-dialog-loop [dialog]
   (di/display dialog)
