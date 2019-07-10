@@ -1,7 +1,9 @@
 (ns brave-clojure-rpg.dialogs-test
   (:require [clojure.test :refer [testing deftest is]]
             [brave-clojure-rpg.dialogs :as Dialogs]
-            [brave-clojure-rpg.person :refer [->Person]]))
+            [brave-clojure-rpg.person :refer [->Person]]
+            [brave-clojure-rpg.helpers :as helpers]))
+
 (def simple-empty-dialog  (Dialogs/->SimpleDialog "Fuck the police" "simple-empty-dialog" {} []))
 
 (deftest simple-dialog-test
@@ -9,7 +11,7 @@
 
     (testing "Printing a dialog"
       (is (=
-           (with-out-str (Dialogs/display dialog))
+           (helpers/trim-carriage-return (with-out-str (Dialogs/display dialog)))
            "lulz\nwtf\n0:Fuck the police\n")))
 
     (testing "Choose dialog 0 should return first nested dialog"
@@ -27,7 +29,6 @@
                                              (->Person "Hero" 20 {} {}) [simple-empty-dialog] 5)]
       (is (= (:hp (:hero (Dialogs/choose dialog 0))) 15)))))
 
-; TODO go through battle dialog
 (deftest battle-dialog-test
   (let [hero (->Person "Hero" 10 {:spear 25} {})
         gremlin (->Person "Hero" 5 {:gg 2} {})
@@ -38,12 +39,14 @@
       (is (not (nil? (Dialogs/choose dialog 0)))))
 
     (testing "Display dialog should return battle status"
-      (is (= (with-out-str (Dialogs/display dialog))
+      (is (= (helpers/trim-carriage-return (with-out-str (Dialogs/display dialog)))
              "Battling with  Hero\nYour hp  10\nEnemy hp  5\nAttack with: \n\n0 : :spear 25 Damage\n"))))
 
   (testing "Going through whole losing BattleDialog"
     (let
-     [dialog (Dialogs/->BattleDialog "" "" (->Person "Hero" 10 {:spear 5} {}) (->Person "Gremlin" 25 {:g 5} {})
+     [dialog (Dialogs/->BattleDialog "" ""
+                                     (->Person "Hero" 10 {:spear 5} {})
+                                     (->Person "Gremlin" 25 {:g 5} {})
                                      (Dialogs/->SimpleDialog "" "" {} []))
       expected (-> (Dialogs/choose dialog 0)
                    (Dialogs/choose 0))]

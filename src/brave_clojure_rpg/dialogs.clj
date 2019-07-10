@@ -38,14 +38,15 @@
 
 (defrecord SideEffectDialog [title description hero choices side-damage]
   Dialog
-  (display [dialog] ; TODO duplaction
+  (display [dialog] ; TODO duplaction from simpledialog
+; TODO go through battle dialog
     (println title)
     (println description)
     (print-simple-choices choices))
   (choose [dialog choice]
     (let [damaged-hero (person/damage hero side-damage)]
       (if (person/dead? damaged-hero) false
-          (if-let [next_dialog (get choices  choice)] ; TODO duplcation
+          (if-let [next_dialog (get choices  choice)] ; TODO duplcation from battledialog
             (pass-hero-to-next-dialog next_dialog damaged-hero))))))
 
 (defrecord BattleDialog [title description hero enemy
