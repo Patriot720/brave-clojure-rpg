@@ -36,6 +36,18 @@
     (if-let [next_dialog (get choices  choice)]
       (pass-hero-to-next-dialog next_dialog hero))))
 
+(defrecord SideEffectDialog [title description hero choices side-damage]
+  Dialog
+  (display [dialog] ; TODO duplaction
+    (println title)
+    (println description)
+    (print-simple-choices choices))
+  (choose [dialog choice]
+    (let [damaged-hero (person/damage hero side-damage)]
+      (if (person/dead? damaged-hero) false
+          (if-let [next_dialog (get choices  choice)] ; TODO duplcation
+            (pass-hero-to-next-dialog next_dialog damaged-hero))))))
+
 (defrecord BattleDialog [title description hero enemy
                          win-dialog]
   Dialog
@@ -48,10 +60,13 @@
     (print-weapon-choices (:weapons hero)))
 
   (choose [dialog choice]
-    (if (person/dead? enemy) (pass-hero-to-next-dialog win-dialog hero))
-    (if (person/dead? hero) false)
-    (->BattleDialog
-     title description
-     (person/damage hero (get-weapon-dmg enemy 0))
-     (person/damage enemy (get-weapon-dmg hero choice))
-     win-dialog)))
+    (let [damaged-hero (person/damage hero (get-weapon-dmg enemy 0))
+          damaged-enemy (person/damage enemy (get-weapon-dmg hero choice))]
+      (cond
+        (person/dead? damaged-enemy) (pass-hero-to-next-dialog win-dialog hero)
+        (person/dead? damaged-hero) false
+        :else (->BattleDialog
+               title description
+               damaged-hero
+               damaged-enemy
+               win-dialog)))))

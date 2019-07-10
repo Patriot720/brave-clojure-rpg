@@ -9,11 +9,15 @@
   (bt/->Person "Gremlin" 1 {:hands 1} {:one-true-ring 50}))
 
 (deftest attack-test
-  (with-out-str (is (= (:hp (bt/damage enemy 3))
-                       297/100))))
+  (is (= (:hp (bt/damage enemy 3))
+         -1/2)))
 
+(deftest attack-without-armor
+  (let [hero (assoc hero :equipment {})
+        enemy (assoc enemy :equipment {})]
+    (with-out-str (is (= (:hp (bt/damage enemy 3)) -2)))))
 ; Random generated result test
 (deftest attack-critical-hit-test
   (is
-   (with-out-str (some #{297/50} (map  (fn [x] (:hp (bt/damage enemy 3)))
-                                       (range 50))))))
+   (some #{-2} (map  (fn [x] (:hp (bt/damage enemy 3)))
+                     (range 50)))))

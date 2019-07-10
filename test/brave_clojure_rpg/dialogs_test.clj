@@ -20,14 +20,14 @@
             dialog (Dialogs/->SimpleDialog "lulz" "wtf" hero [simple-empty-dialog])]
         (is (= (:hero (Dialogs/choose dialog 0))
                hero))))))
-; TODO uncomment
-; (deftest side-effect-dialog-test
-;   (testing "Dialog choice that does damage to hero"
-;     (let [dialog (Dialogs/->SideEffectDialog "lulz" "wtf"
-;                                              (bt/->Person "Hero" 20 {} {}) [simple-empty-dialog])]
-;       (is (= (:hp (:hero (Dialogs/choose dialog 0))) 15)))))
 
-; TODO go through battle dialog 
+(deftest side-effect-dialog-test
+  (testing "Dialog choice that does damage to hero"
+    (let [dialog (Dialogs/->SideEffectDialog "lulz" "wtf"
+                                             (->Person "Hero" 20 {} {}) [simple-empty-dialog] 5)]
+      (is (= (:hp (:hero (Dialogs/choose dialog 0))) 15)))))
+
+; TODO go through battle dialog
 (deftest battle-dialog-test
   (let [hero (->Person "Hero" 10 {:spear 25} {})
         gremlin (->Person "Hero" 5 {:gg 2} {})
@@ -39,4 +39,13 @@
 
     (testing "Display dialog should return battle status"
       (is (= (with-out-str (Dialogs/display dialog))
-             "Battling with  Hero\nYour hp  10\nEnemy hp  5\nAttack with: \n\n0 : :spear 25 Damage\n")))))
+             "Battling with  Hero\nYour hp  10\nEnemy hp  5\nAttack with: \n\n0 : :spear 25 Damage\n"))))
+
+  (testing "Going through whole losing BattleDialog"
+    (let
+     [dialog (Dialogs/->BattleDialog "" "" (->Person "Hero" 10 {:spear 5} {}) (->Person "Gremlin" 25 {:g 5} {})
+                                     (Dialogs/->SimpleDialog "" "" {} []))
+      expected (-> (Dialogs/choose dialog 0)
+                   (Dialogs/choose 0))]
+                   ; TODO not 100 percent of time true critical-hit
+      (is (= expected false)))))
