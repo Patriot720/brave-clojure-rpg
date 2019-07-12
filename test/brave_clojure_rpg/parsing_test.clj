@@ -31,8 +31,7 @@
                                         (Dialogs/->SimpleDialog
                                          "Winner" "Chicken dinner" hero
                                          [(Dialogs/->SideEffectDialog "Damaged" "For 5 dmg" hero 5 [])])))))))
+
   (testing "Breadth dialogs test"
     (let [parsed-dialog (parse-dialog-from-file "example_breadth_first_dialogs.json")]
       (is (= parsed-dialog (Dialogs/->SimpleDialog "" "" {} [(Dialogs/->SimpleDialog "" "" {} []) (Dialogs/->SimpleDialog "" "" {} [])]))))))
-
-; TODO multiple same-level dialogs
