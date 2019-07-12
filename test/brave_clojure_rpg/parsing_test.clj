@@ -5,9 +5,11 @@
             [brave-clojure-rpg.person :refer [->Person]]))
 
 (deftest dialog-parsing
-  (let [parsed-dialog (parse-dialog-from-file (slurp "example_dialog.json"))
-        expected-dialog (Dialogs/->SimpleDialog "Kill everyone" "You fucked up everyone" {}
-                                                [(Dialogs/->SimpleDialog "Wtf" "other stuff happened" {} [])])
+  (let [parsed-dialog (parse-dialog-from-file "example_dialog.json")
+        expected-dialog (Dialogs/->SimpleDialog
+                         "Kill everyone" "You fucked up everyone"
+                         {}
+                         [(Dialogs/->SimpleDialog "Wtf" "other stuff happened" {} [])])
         nested-dialog (get-in expected-dialog [:choices 0])]
 
     (testing "Parsing example_dialog with one nested dialog"
@@ -18,7 +20,8 @@
              nested-dialog))))
 
   (testing "Battle dialog parsing"
-    (let [parsed-dialog (parse-dialog-from-file (slurp "example_mixed_dialogs.json"))]
+    (let [parsed-dialog
+          (parse-dialog-from-file "example_mixed_dialogs.json")]
       (testing "Should return battle dialog with simple nested win dialog"
         (is (=  parsed-dialog
                 (Dialogs/->BattleDialog "Battle with gremlin" ""

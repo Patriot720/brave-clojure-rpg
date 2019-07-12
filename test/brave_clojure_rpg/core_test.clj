@@ -10,5 +10,5 @@
     (binding [d/input (fn [] 0)]
       (is (=
            (helpers/trim-carriage-return (with-out-str
-                                           (d/start-dialog-loop (parse-dialog-from-file (slurp "example_dialog.json")))))
+                                           (d/start-dialog-loop (parse-dialog-from-file "example_dialog.json"))))
            "Kill everyone\nYou fucked up everyone\n0:Wtf\nWtf\nother stuff happened\n")))))

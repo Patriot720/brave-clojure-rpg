@@ -15,6 +15,6 @@
                                                               (fn [item] (parse-dialog-json hero item)) (last json)))))))
 
 (defn parse-dialog-from-file [file]
-  (let [json (json/read-str file :key-fn keyword)
+  (let [json (json/read-str (slurp file) :key-fn keyword)
         hero (:hero json)]
     (parse-dialog-json (if hero (person/map->Person (:hero json {})) {}) (get  json :dialogs))))
