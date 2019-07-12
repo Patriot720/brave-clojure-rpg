@@ -1,7 +1,7 @@
 (ns brave-clojure-rpg.person-test
   (:require [clojure.test :refer [testing deftest is]]
             [brave-clojure-rpg.person :as bt]))
-
+(def critical-hit-number 25)
 (def hero
   (bt/->Person "Hero" 10 {:spear 3} {:headgear 3}))
 
@@ -11,6 +11,7 @@
 (deftest attack-test
   (is (= (:hp (bt/damage enemy 3))
          -1/2)))
+(def critical-hit-number 4)
 
 (deftest attack-without-armor
   (let [hero (assoc hero :equipment {})

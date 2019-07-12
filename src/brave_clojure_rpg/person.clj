@@ -1,6 +1,8 @@
 (ns brave-clojure-rpg.person
   (:gen-class))
 
+(def critical-hit-number 4) ; TODO unclear terminology
+
 (defn- calculate-armor [person]
   (reduce + (vals (:equipment person))))
 
@@ -8,7 +10,7 @@
   (/ (calculate-armor hero) 100))
 
 (defn- critical-hit? []
-  (= (rand-int 5) 4))
+  (= (rand-int 5) critical-hit-number))
 
 (defn- calculate-damage-to [hero weapon-damage]
   (let [base-dmg (if (critical-hit?)

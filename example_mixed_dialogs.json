@@ -5,6 +5,7 @@
         "weapons": {"spear":10}
     },
     "dialogs": [
+        "battle"
         "Battle with gremlin"
         ""
         {
@@ -16,9 +17,18 @@
             "equipment":{}
         }
         [
+            "Simple"
             "Winner"
             "Chicken dinner"
-            []
+            [
+                [
+                    "SideEffect"
+                    "Damaged"
+                    "For 5 dmg"
+                    5
+                    []
+                ]
+            ]
         ]
     ]
 }
