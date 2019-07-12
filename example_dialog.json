@@ -1,9 +1,12 @@
 {
 "dialogs":[
+    "simple"
     "Kill everyone"
     "You fucked up everyone"
     [
-        ["Wtf"
+        [
+            "simple"
+            "Wtf"
         "other stuff happened"
         []]
     ]

@@ -21,10 +21,18 @@
 
   (testing "Battle dialog parsing"
     (let [parsed-dialog
-          (parse-dialog-from-file "example_mixed_dialogs.json")]
+          (parse-dialog-from-file "example_mixed_dialogs.json")
+          hero (->Person "Hero" 20 {:spear 10} nil)]
       (testing "Should return battle dialog with simple nested win dialog"
         (is (=  parsed-dialog
                 (Dialogs/->BattleDialog "Battle with gremlin" ""
-                                        (->Person "Hero" 20 {:spear 10} nil)
+                                        hero
                                         (->Person "Gremlin" 20 {:hands 25} {})
-                                        (Dialogs/->SimpleDialog "Winner" "Chicken dinner" (->Person "Hero" 20 {:spear 10} nil) []))))))))
+                                        (Dialogs/->SimpleDialog
+                                         "Winner" "Chicken dinner" hero
+                                         [(Dialogs/->SideEffectDialog "Damaged" "For 5 dmg" hero 5 [])])))))))
+  (testing "Breadth dialogs test"
+    (let [parsed-dialog (parse-dialog-from-file "example_breadth_first_dialogs.json")]
+      (is (= parsed-dialog (Dialogs/->SimpleDialog "" "" {} [(Dialogs/->SimpleDialog "" "" {} []) (Dialogs/->SimpleDialog "" "" {} [])]))))))
+
+; TODO multiple same-level dialogs

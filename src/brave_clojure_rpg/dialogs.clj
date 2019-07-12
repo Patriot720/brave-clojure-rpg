@@ -36,7 +36,7 @@
     (if-let [next_dialog (get choices  choice)]
       (pass-hero-to-next-dialog next_dialog hero))))
 
-(defrecord SideEffectDialog [title description hero choices side-damage]
+(defrecord SideEffectDialog [title description hero side-damage choices]
   Dialog
   (display [dialog] ; TODO duplaction from simpledialog
 ; TODO go through battle dialog
