@@ -1,13 +1,13 @@
 (ns brave-clojure-rpg.dialogs-test
   (:require [clojure.test :refer [testing deftest is]]
             [brave-clojure-rpg.dialogs :as Dialogs]
-            [brave-clojure-rpg.person :refer [->Person]]
+            [brave-clojure-rpg.person :refer [->Person map->Person]]
             [brave-clojure-rpg.helpers :as helpers]))
 
-(def simple-empty-dialog  (Dialogs/->SimpleDialog "Fuck the police" "simple-empty-dialog" {} []))
+(def simple-empty-dialog  (Dialogs/->SimpleDialog "Fuck the police" "simple-empty-dialog" (map->Person {}) []))
 
 (deftest simple-dialog-test
-  (let [dialog (Dialogs/->SimpleDialog "lulz" "wtf" {} [simple-empty-dialog])]
+  (let [dialog (Dialogs/->SimpleDialog "lulz" "wtf" (map->Person {}) [simple-empty-dialog])]
 
     (testing "Printing a dialog"
       (is (=
@@ -32,7 +32,7 @@
 (deftest battle-dialog-test
   (let [hero (->Person "Hero" 10 {:spear 25} {})
         gremlin (->Person "Hero" 5 {:gg 2} {})
-        win-dialog (Dialogs/->SimpleDialog "f" "f" {} [])
+        win-dialog (Dialogs/->SimpleDialog "f" "f" (map->Person {}) [])
         dialog (Dialogs/->BattleDialog "the battle" "" hero gremlin win-dialog)]
 
     (testing "Choose shouldn't return nill"
@@ -47,8 +47,8 @@
      [dialog (Dialogs/->BattleDialog "" ""
                                      (->Person "Hero" 10 {:spear 5} {})
                                      (->Person "Gremlin" 25 {:g 5} {})
-                                     (Dialogs/->SimpleDialog "" "" {} []))
+                                     (Dialogs/->SimpleDialog "" "" (map->Person {}) []))
       expected (-> (Dialogs/choose dialog 0)
                    (Dialogs/choose 0))]
                    ; TODO not 100 percent of time true critical-hit
-      (is (= expected false)))))
+      (is (= expected (Dialogs/->EmptyDialog))))))

@@ -2,14 +2,14 @@
   (:require [brave-clojure-rpg.parsing :refer [parse-dialog-from-file]]
             [clojure.test :refer [testing deftest is]]
             [brave-clojure-rpg.dialogs :as Dialogs]
-            [brave-clojure-rpg.person :refer [->Person]]))
+            [brave-clojure-rpg.person :refer [->Person map->Person]]))
 
 (deftest dialog-parsing
   (let [parsed-dialog (parse-dialog-from-file "example_dialog.json")
         expected-dialog (Dialogs/->SimpleDialog
                          "Kill everyone" "You fucked up everyone"
-                         {}
-                         [(Dialogs/->SimpleDialog "Wtf" "other stuff happened" {} [])])
+                         (map->Person {})
+                         [(Dialogs/->SimpleDialog "Wtf" "other stuff happened" (map->Person {}) [])])
         nested-dialog (get-in expected-dialog [:choices 0])]
 
     (testing "Parsing example_dialog with one nested dialog"
@@ -34,4 +34,4 @@
 
   (testing "Breadth dialogs test"
     (let [parsed-dialog (parse-dialog-from-file "example_breadth_first_dialogs.json")]
-      (is (= parsed-dialog (Dialogs/->SimpleDialog "" "" {} [(Dialogs/->SimpleDialog "" "" {} []) (Dialogs/->SimpleDialog "" "" {} [])]))))))
+      (is (= parsed-dialog (Dialogs/->SimpleDialog "" "" (map->Person {}) [(Dialogs/->SimpleDialog "" "" (map->Person {}) []) (Dialogs/->SimpleDialog "" "" (map->Person {}) [])]))))))

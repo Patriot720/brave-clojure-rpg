@@ -1,0 +1,31 @@
+{
+    "hero": {
+        "name": "Ivan", #// Choosing a name Game menu
+        "hp": 10, #// Increase hp with progress
+        "weapons": {}, # Acquire weapons SideEffectDialog
+        "equipment": {}
+    },
+    "dialogs": {
+        [
+            "simple",
+            "The story of a dungeon",
+            "",
+            "You fell into the hole in the ground, you can barely see a door
+            there no way back, you can also see some boxes """,
+                [
+                    [
+                        "simple"
+                        "Go check out the boxes" # Go back to the previous dialog
+                        """You checked out the boxes,
+                        there are nothing you can do with them """ # Different results based on items []
+                    ]
+                    [
+                        "SideEffect",
+                        "Go to the door",
+                        "You slipped and died"
+
+                    ]
+            ]
+        ]
+    }
+}
