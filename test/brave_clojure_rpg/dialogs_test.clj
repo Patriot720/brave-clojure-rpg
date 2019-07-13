@@ -26,7 +26,7 @@
 (deftest side-effect-dialog-test
   (testing "Dialog choice that does damage to hero"
     (let [dialog (Dialogs/->SideEffectDialog "lulz" "wtf"
-                                             (->Person "Hero" 20 {} {}) [simple-empty-dialog] 5)]
+                                             (->Person "Hero" 20 {} {}) 5 [simple-empty-dialog])]
       (is (= (:hp (:hero (Dialogs/choose dialog 0))) 15)))))
 
 (deftest battle-dialog-test
