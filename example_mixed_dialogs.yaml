@@ -1,0 +1,22 @@
+hero:
+    name : Hero
+    hp : 20
+    weapons: {spear: 10}
+dialogs:
+    - battle
+    - Battle with gremlin
+    - ""
+    - name : "Gremlin"
+      hp : 20
+      weapons:
+          hands: 25
+      equipment: {}
+    -   - "Simple"
+        - "Winner"
+        - "Chicken dinner"
+        -   -   - "SideEffect"
+                - "Damaged"
+                - "For 5 dmg"
+                - 5
+                - [] # TODO forgot that it's a battle dialog
+                # TODO redo with titles

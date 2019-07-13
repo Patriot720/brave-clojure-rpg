@@ -1,0 +1,8 @@
+dialogs:
+    - simple
+    - Kill everyone
+    - You fucked up everyone
+    -   -   - simple
+            - Wtf
+            - other stuff happened
+            - []
