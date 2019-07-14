@@ -1,19 +1,19 @@
 {
-    "dialogs":[
-        "simple"
-        ""
-        ""
-        [
-            [
-                "simple"
-                ""
-                ""
-            ]
-            [
-                "simple"
-                ""
-                ""
-            ]
+    "dialogs":{
+        "type":"simple",
+        "title":"",
+        "description":"",
+        "choices":[
+            {
+                "type":"simple",
+                "title":"",
+                "description":""
+            }
+            {
+                "type":"simple",
+                "title":"",
+                "description":""
+            }
         ]
-    ]
+    }
 }

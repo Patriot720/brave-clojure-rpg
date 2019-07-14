@@ -3,20 +3,22 @@ hero:
     hp : 20
     weapons: {spear: 10}
 dialogs:
-    - battle
-    - Battle with gremlin
-    - ""
-    - name : "Gremlin"
-      hp : 20
-      weapons:
-          hands: 25
-      equipment: {}
-    -   - "Simple"
-        - "Winner"
-        - "Chicken dinner"
-        -   -   - "SideEffect"
-                - "Damaged"
-                - "For 5 dmg"
-                - 5
-                - [] # TODO forgot that it's a battle dialog
-                # TODO redo with titles
+    type: battle
+    title: Battle with gremlin
+    description: ""
+    enemy:
+        - name : "Gremlin"
+          hp : 20
+          weapons:
+              hands: 25
+          equipment: {}
+    win-dialog:
+        type: "Simple"
+        title: "Winner"
+        description: "Chicken dinner"
+        choices:
+            -   type: "SideEffect"
+                title: "Damaged"
+                description: "For 5 dmg"
+                side-effect: 5
+                choices: [] 

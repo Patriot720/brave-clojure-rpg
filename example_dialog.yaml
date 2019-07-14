@@ -1,8 +1,9 @@
 dialogs:
-    - simple
-    - Kill everyone
-    - You fucked up everyone
-    -   -   - simple
-            - Wtf
-            - other stuff happened
-            - []
+    type: simple
+    title: Kill everyone
+    description: You fucked up everyone
+    choices:
+        -   type: simple
+            title: Wtf
+            description: other stuff happened
+            choices: []

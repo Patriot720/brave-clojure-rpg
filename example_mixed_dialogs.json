@@ -6,28 +6,31 @@
             "spear": 10
         }
     },
-    "dialogs": [
-        "battle"
-        "Battle with gremlin"
-        "" {
+    "dialogs": {
+        "type": "battle",
+        "title":"Battle with gremlin",
+        "description":"",
+         "enemy":{
             "name": "Gremlin",
             "hp": 20,
             "weapons": {
                 "hands": 25
             },
             "equipment": {}
-        }
-        [
-            "Simple"
-            "Winner"
-            "Chicken dinner" [
-                [
-                    "SideEffect"
-                    "Damaged"
-                    "For 5 dmg"
-                    5[]
-                ]
+        },
+        "win-dialog":{
+            "type": "Simple",
+            "title":"Winner",
+            "description":"Chicken dinner",
+            "choices": [
+                {
+                    "type":"SideEffect",
+                    "title":"Damaged",
+                    "description":"For 5 dmg",
+                    "side-effect":5,
+                    "choices":[]
+                }
             ]
-        ]
-    ]
+        }
+    }
 }
