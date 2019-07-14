@@ -5,6 +5,7 @@
             [brave-clojure-rpg.helpers :as helpers]))
 
 (def simple-empty-dialog  (Dialogs/->SimpleDialog "Fuck the police" "simple-empty-dialog" (map->Person {}) []))
+(def simple-hero (->Person "Hero" 20 {:spear 10} {}))
 
 (deftest simple-dialog-test
   (let [dialog (Dialogs/->SimpleDialog "lulz" "wtf" (map->Person {}) [simple-empty-dialog])]
@@ -52,3 +53,8 @@
                    (Dialogs/choose 0))]
                    ; TODO not 100 percent of time true critical-hit
       (is (= expected (Dialogs/->EmptyDialog))))))
+(deftest condition-dialog-test
+  (testing "If hero has something"
+    (let [dialog (Dialogs/->ConditionDialog "title" "win" "lose" simple-hero "(get-in (:hero dialog) [:equipment :spear])" [:lul 25] simple-empty-dialog)]
+      (testing "Doesn't have the spear"
+        (is (not (contains? (:equipment (:hero (Dialogs/choose dialog 0))) :lul)))))))

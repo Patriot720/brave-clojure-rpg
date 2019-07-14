@@ -31,6 +31,17 @@
   (choose [dialog choice])
   (display [dialog]))
 
+(defrecord ConditionDialog [title success fail hero condition reward previous-dialog]
+  Dialog
+  (display [dialog]
+    (if true
+      (println success)
+      (println fail)))
+  (choose [dialog choice]
+    (if true ; TODO placeholder
+      (pass-hero-to-next-dialog previous-dialog
+                                (assoc-in hero [:equipment (first reward)] (last reward)))
+      previous-dialog)))
 (defrecord SimpleDialog [title description hero choices]
   Dialog
   (display [dialog]
