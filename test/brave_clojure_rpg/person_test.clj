@@ -23,3 +23,8 @@
     (is
      (some #{-2} (map  (fn [x] (:hp (bt/damage enemy 3)))
                        (range 1))))))
+(deftest add-to-inventory-test
+  (is (= (bt/add-to-inventory hero {:lul 25}) (assoc-in hero [:equipment :lul] 25))))
+(deftest has?-test
+  (is (= (bt/has? hero :spear) true))
+  (is (= (bt/has? hero :lul) false)))

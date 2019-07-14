@@ -20,7 +20,9 @@
 
 (defprotocol Warrior
   (dead? [person])
-  (damage [person damage]))
+  (damage [person damage])
+  (add-to-inventory [person item])
+  (has? [person item]))
 
 (defrecord Person [name hp weapons equipment]
   Warrior
@@ -29,4 +31,10 @@
   (damage [person weapon-damage]
     (let [damage (calculate-damage-to person weapon-damage)]
       (println (:name person) " attacked for " damage " damage")
-      (assoc person :hp (- hp damage)))))
+      (assoc person :hp (- hp damage))))
+  (has? [person item]
+    (if (or (contains? weapons item) (contains? equipment item))
+      true
+      false))
+  (add-to-inventory [person item]
+    (update person :equipment (fn [equipment item] (conj equipment item)) item)))

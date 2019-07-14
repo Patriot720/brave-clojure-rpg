@@ -53,8 +53,14 @@
                    (Dialogs/choose 0))]
                    ; TODO not 100 percent of time true critical-hit
       (is (= expected (Dialogs/->EmptyDialog))))))
+
+; TODO critical hit based on items
+
 (deftest condition-dialog-test
   (testing "If hero has something"
-    (let [dialog (Dialogs/->ConditionDialog "title" "win" "lose" simple-hero "(get-in (:hero dialog) [:equipment :spear])" [:lul 25] simple-empty-dialog)]
-      (testing "Doesn't have the spear"
-        (is (not (contains? (:equipment (:hero (Dialogs/choose dialog 0))) :lul)))))))
+    (let [dialog (Dialogs/->ConditionDialog "title" "win" "lose" simple-hero :milk {:lul 25} simple-empty-dialog)]
+      (testing "Doesn't have the milk"
+        (is (not (contains? (:equipment (:hero (Dialogs/choose dialog 0))) :lul))))
+      (testing "Has a spear" ; TODO different types of equipment with different effects
+        (let [dialog (assoc-in dialog [:hero :equipment] {:milk 10})]
+          (is (contains? (:equipment (:hero (Dialogs/choose dialog 0))) :lul)))))))
