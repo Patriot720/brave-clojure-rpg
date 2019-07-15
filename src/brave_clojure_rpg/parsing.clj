@@ -27,8 +27,3 @@
 (defmethod parse-dialog-from-file "yaml"
   [filename]
   (parse-dialog (yaml/parse-string (slurp filename) :keywords true)))
-
-; (defn parse-dialog-from-file [file]
-;   (let [json (json/read-str (slurp file) :key-fn keyword)
-;         hero (person/map->Person (:hero json))]
-;     (parse-dialog-json (if hero (person/map->Person (:hero json {})) {}) (get  json :dialogs))))

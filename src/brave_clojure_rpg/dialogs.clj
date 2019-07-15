@@ -13,10 +13,10 @@
   (print-choices choices "%d:%s" :title))
 
 (defn- print-weapon-choices [choices]
-  (print-choices choices "%d : %s %s Damage" first last))
+  (print-choices choices "%d : %s %s Damage" first #(:damage (last %1))))
 
 (defn- get-weapon-dmg [person choice]
-  (get-in person [:weapons (nth (keys (:weapons person)) choice 0)]))
+  (get-in person [:weapons (nth (keys (:weapons person)) choice 0) :damage]))
 
 (defn- pass-hero-to-next-dialog [dialog hero]
   (assoc  dialog :hero hero))

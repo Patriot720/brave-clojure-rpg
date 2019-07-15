@@ -12,6 +12,9 @@
 (defn- critical-hit? []
   (= (rand-int (last critical-hit-chance)) (first critical-hit-chance)))
 
+(defn- get-critical-hit-chances [hero]
+  (reduce #(+ (:critical-hit %1)) (vals (:weapons hero))))
+
 (defn- calculate-damage-to [hero weapon-damage]
   (let [base-dmg (if (critical-hit?)
                    (* 2 weapon-damage)

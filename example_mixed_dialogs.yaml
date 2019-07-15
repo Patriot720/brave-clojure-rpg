@@ -1,7 +1,9 @@
 hero:
     name : Hero
     hp : 20
-    weapons: {spear: 10}
+    weapons:
+        spear:
+            damage: 10
 dialogs:
     type: battle
     title: Battle with gremlin
@@ -10,7 +12,8 @@ dialogs:
         - name : "Gremlin"
           hp : 20
           weapons:
-              hands: 25
+              hands:
+                  damage: 25
           equipment: {}
     win-dialog:
         type: "Simple"
@@ -21,4 +24,4 @@ dialogs:
                 title: "Damaged"
                 description: "For 5 dmg"
                 side-effect: 5
-                choices: [] 
+                choices: []

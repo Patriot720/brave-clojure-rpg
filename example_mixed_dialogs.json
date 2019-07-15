@@ -3,7 +3,9 @@
         "name": "Hero",
         "hp": 20,
         "weapons": {
-            "spear": 10
+            "spear":{
+                "damage": 10
+                }
         }
     },
     "dialogs": {
@@ -14,7 +16,9 @@
             "name": "Gremlin",
             "hp": 20,
             "weapons": {
-                "hands": 25
+                "hands": {
+                    "damage":25
+                }
             },
             "equipment": {}
         },

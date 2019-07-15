@@ -5,7 +5,7 @@
             [brave-clojure-rpg.helpers :as helpers]))
 
 (def simple-empty-dialog  (Dialogs/->SimpleDialog "Fuck the police" "simple-empty-dialog" (map->Person {}) []))
-(def simple-hero (->Person "Hero" 20 {:spear 10} {}))
+(def simple-hero (->Person "Hero" 20 {:spear {:damage 10}} {}))
 
 (deftest simple-dialog-test
   (let [dialog (Dialogs/->SimpleDialog "lulz" "wtf" (map->Person {}) [simple-empty-dialog])]
@@ -31,8 +31,8 @@
       (is (= (:hp (:hero (Dialogs/choose dialog 0))) 15)))))
 
 (deftest battle-dialog-test
-  (let [hero (->Person "Hero" 10 {:spear 25} {})
-        gremlin (->Person "Hero" 5 {:gg 2} {})
+  (let [hero (->Person "Hero" 10 {:spear {:damage 25}} {})
+        gremlin (->Person "Hero" 5 {:gg {:damage 2}} {})
         win-dialog (Dialogs/->SimpleDialog "f" "f" (map->Person {}) [])
         dialog (Dialogs/->BattleDialog "the battle" "" hero gremlin win-dialog)]
 
@@ -46,8 +46,8 @@
   (testing "Going through whole losing BattleDialog"
     (let
      [dialog (Dialogs/->BattleDialog "" ""
-                                     (->Person "Hero" 10 {:spear 5} {})
-                                     (->Person "Gremlin" 25 {:g 5} {})
+                                     (->Person "Hero" 10 {:spear {:damage 5}} {})
+                                     (->Person "Gremlin" 25 {:g {:damage 5}} {})
                                      (Dialogs/->SimpleDialog "" "" (map->Person {}) []))
       expected (-> (Dialogs/choose dialog 0)
                    (Dialogs/choose 0))]
