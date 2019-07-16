@@ -3,8 +3,15 @@
 
 (def ^:dynamic critical-hit-chance [1 5]) ; TODO unclear terminology
 
+(defn- reduce-map-or-maps [ifone ifmore map]
+  (if (> (count map) 1)
+    (reduce  ifmore map)
+    (ifone map)))
+
 (defn- calculate-armor [person]
-  (reduce + (vals (:equipment person))))
+  (reduce-map-or-maps #(:armor (first %1) 0)
+                      #(+ (:armor %1) (:armor %2))
+                      (vals (:equipment person))))
 
 (defn- armor-deflection [hero]
   (/ (calculate-armor hero) 100))
