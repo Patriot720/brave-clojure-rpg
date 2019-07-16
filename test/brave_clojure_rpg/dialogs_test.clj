@@ -5,7 +5,6 @@
             [brave-clojure-rpg.helpers :as helpers]))
 
 (def simple-empty-dialog  (Dialogs/->SimpleDialog "Fuck the police" "simple-empty-dialog" (map->Person {}) []))
-(def simple-hero (->Person "Hero" 20 {:spear {:damage 10}} {}))
 
 (deftest simple-dialog-test
   (let [dialog (Dialogs/->SimpleDialog "lulz" "wtf" (map->Person {}) [simple-empty-dialog])]
@@ -58,7 +57,7 @@
 
 (deftest condition-dialog-test
   (testing "If hero has something"
-    (let [dialog (Dialogs/->ConditionDialog "title" "win" "lose" simple-hero :milk {:lul 25} simple-empty-dialog)]
+    (let [dialog (Dialogs/->ConditionDialog "title" "win" "lose" helpers/hero :milk {:lul 25} simple-empty-dialog)]
       (testing "Doesn't have the milk"
         (is (not (contains? (:equipment (:hero (Dialogs/choose dialog 0))) :lul))))
       (testing "Has a spear" ; TODO different types of equipment with different effects

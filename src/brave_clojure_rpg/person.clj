@@ -16,14 +16,19 @@
 (defn- armor-deflection [hero]
   (/ (calculate-armor hero) 100))
 
-(defn- critical-hit? []
-  (= (rand-int (last critical-hit-chance)) (first critical-hit-chance)))
-
 (defn- get-critical-hit-chances [hero]
-  (reduce #(+ (:critical-hit %1)) (vals (:weapons hero))))
+  (+ (reduce-map-or-maps #(:critical-hit (first %1) 0)
+                         #(+ (:critical-hit %1) (:critical-hit %2))
+                         (vals (:equipment hero)))
+     (reduce-map-or-maps #(:critical-hit (first %1) 0)
+                         #(+ (:critical-hit %1) (:critical-hit %2))
+                         (vals (:weapons hero)))))
+
+(defn- critical-hit? [hero]
+  (= (+ 1 (rand-int (- 100 (get-critical-hit-chances hero)))) 1))
 
 (defn- calculate-damage-to [hero weapon-damage]
-  (let [base-dmg (if (critical-hit?)
+  (let [base-dmg (if (critical-hit? hero)
                    (* 2 weapon-damage)
                    weapon-damage)]
     (- base-dmg (* (armor-deflection hero) base-dmg))))
