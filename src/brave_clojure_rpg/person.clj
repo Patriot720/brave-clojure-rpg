@@ -1,8 +1,6 @@
 (ns brave-clojure-rpg.person
   (:gen-class))
 
-(def ^:dynamic critical-hit-chance [1 5]) ; TODO unclear terminology
-
 (defn- reduce-map-or-maps [ifone ifmore map]
   (if (> (count map) 1)
     (reduce  ifmore map)
@@ -19,7 +17,7 @@
 (defn- get-critical-hit-chances [hero]
   (+ (reduce-map-or-maps #(:critical-hit (first %1) 0)
                          #(+ (:critical-hit %1) (:critical-hit %2))
-                         (vals (:equipment hero)))
+                         (vals (:equipment hero))) ; TODO equip weapons
      (reduce-map-or-maps #(:critical-hit (first %1) 0)
                          #(+ (:critical-hit %1) (:critical-hit %2))
                          (vals (:weapons hero)))))

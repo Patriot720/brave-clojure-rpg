@@ -17,7 +17,8 @@
             "hp": 20,
             "weapons": {
                 "hands": {
-                    "damage":25
+                    "damage":25,
+                    "critical-hit": 15
                 }
             },
             "equipment": {}

@@ -14,6 +14,7 @@ dialogs:
           weapons:
               hands:
                   damage: 25
+                  critical-hit: 15 # TODO Go back choice dialog
           equipment: {}
     win-dialog:
         type: "Simple"
