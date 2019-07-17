@@ -21,6 +21,11 @@
      (some #{-2} (map  (fn [x] (:hp (bt/damage enemy 3)))
                        (range 1))))))
 
+(deftest equip-weapon-test
+  (let [hero (bt/->Person "Hero" 10 {} {:lulz {:type "weapon" :damage 3} :wtf {:armor 5}})
+        expected-hero (bt/->Person "Hero" 10 {:lulz {:type "weapon" :damage 3}} {:wtf {:armor 5}})]
+    (is (= (bt/equip hero :lulz) expected-hero))
+    (is (thrown? Exception (bt/equip hero :wtf)))))
 (deftest add-to-inventory-test
   (is (= (bt/add-to-inventory hero {:lul 25}) (assoc-in hero [:equipment :lul] 25))))
 (deftest has?-test

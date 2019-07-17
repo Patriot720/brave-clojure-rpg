@@ -57,7 +57,6 @@
 (defrecord SideEffectDialog [title description hero side-damage choices]
   Dialog
   (display [dialog] ; TODO duplaction from simpledialog
-; TODO go through battle dialog
     (println title)
     (println description)
     (print-simple-choices choices))

@@ -1,8 +1,8 @@
 {
     "hero": {
-        "name": "Ivan", #// Choosing a name Game menu
-        "hp": 10, #// Increase hp with progress
-        "weapons": {}, # Acquire weapons SideEffectDialog
+        "name": "Ivan", #// TODO Choosing a name Game menu
+        "hp": 10, #// TODO Increase hp with progress
+        "weapons": {}, # TODO Acquire weapons SideEffectDialog
         "equipment": {}
     },
     "dialogs": {
@@ -15,9 +15,9 @@
                 [
                     [
                         "simple"
-                        "Go check out the boxes" # Go back to the previous dialog
+                        "Go check out the boxes" # TODO Go back to the previous dialog
                         """You checked out the boxes,
-                        there are nothing you can do with them """ # Different results based on items []
+                        there are nothing you can do with them """ # TODO Different results based on items []
                     ]
                     [
                         "SideEffect",

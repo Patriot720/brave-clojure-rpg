@@ -35,7 +35,8 @@
   (dead? [person])
   (damage [person damage])
   (add-to-inventory [person item])
-  (has? [person item]))
+  (has? [person item])
+  (equip [person weapon]))
 
 (defrecord Person [name hp weapons equipment]
   Warrior
@@ -49,5 +50,10 @@
     (if (or (contains? weapons item) (contains? equipment item))
       true
       false))
+  (equip [person weapon]
+    (if (= (:type (weapon equipment)) "weapon")
+      (let [person (assoc-in person [:weapons weapon] (weapon equipment))]
+        (assoc person :equipment (dissoc equipment weapon)))
+      (throw (Exception. "Not a weapon"))))
   (add-to-inventory [person item]
     (update person :equipment (fn [equipment item] (conj equipment item)) item)))

@@ -4,8 +4,6 @@
   (:require [yaml.core :as yaml])
   (:require [brave-clojure-rpg.person :as person]))
 
- ; TODO different condition instead of counting array (dictionary)
- ; TODO add SideEffectDialog
 (defn parse-dialog
   ([arr]
    (parse-dialog (person/map->Person (:hero arr {})) (get arr :dialogs)))
