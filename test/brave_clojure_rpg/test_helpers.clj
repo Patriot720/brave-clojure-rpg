@@ -1,4 +1,4 @@
-(ns brave-clojure-rpg.helpers
+(ns brave-clojure-rpg.test-helpers
   (:require [brave-clojure-rpg.person :refer [->Person map->Person]]
             [brave-clojure-rpg.dialogs :as Dialogs]))
 

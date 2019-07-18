@@ -2,7 +2,7 @@
   (:require [clojure.test :refer [testing deftest is]]
             [brave-clojure-rpg.parsing :refer [parse-dialog-from-file]]
             [brave-clojure-rpg.core :as d]
-            [brave-clojure-rpg.helpers :as helpers]))
+            [brave-clojure-rpg.test-helpers :as helpers]))
 
 (defn my-read-line [] 0)
 (deftest dialog-loop-test

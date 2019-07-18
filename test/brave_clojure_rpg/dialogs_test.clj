@@ -2,7 +2,7 @@
   (:require [clojure.test :refer [testing deftest is]]
             [brave-clojure-rpg.dialogs :as Dialogs]
             [brave-clojure-rpg.person :refer [->Person map->Person]]
-            [brave-clojure-rpg.helpers :as helpers]))
+            [brave-clojure-rpg.test-helpers :as helpers]))
 
 (def simple-empty-dialog  (Dialogs/->SimpleDialog "Fuck the police" "simple-empty-dialog" (map->Person {}) []))
 

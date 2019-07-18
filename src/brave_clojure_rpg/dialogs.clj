@@ -1,5 +1,6 @@
 (ns brave-clojure-rpg.dialogs
-  (:require [brave-clojure-rpg.person :as person])
+  (:require [brave-clojure-rpg.person :as person]
+            [brave-clojure-rpg.helpers :refer [condt]])
   (:gen-class))
 
 (defn- apply-to-choice [choice args]
@@ -13,7 +14,7 @@
   (print-choices choices "%d:%s" :title))
 
 (defn- print-weapon-choices [choices]
-  (print-choices choices "%d : %s %s Damage" first #(:damage (last %1))))
+  (print-choices choices "%d : %s %s Damage" first (comp :damage last)))
 
 (defn- get-weapon-dmg [person choice]
   (get-in person [:weapons (nth (keys (:weapons person)) choice 0) :damage]))
@@ -80,11 +81,11 @@
   (choose [dialog choice]
     (let [damaged-hero (person/damage hero (get-weapon-dmg enemy 0))
           damaged-enemy (person/damage enemy (get-weapon-dmg hero choice))]
-      (cond
-        (person/dead? damaged-enemy) (pass-hero-to-next-dialog win-dialog hero)
-        (person/dead? damaged-hero) (->EmptyDialog)
-        :else (->BattleDialog
-               title description
-               damaged-hero
-               damaged-enemy
-               win-dialog)))))
+      (condt person/dead?
+             damaged-enemy (pass-hero-to-next-dialog win-dialog hero)
+             damaged-hero (->EmptyDialog)
+             (->BattleDialog
+              title description
+              damaged-hero
+              damaged-enemy
+              win-dialog)))))

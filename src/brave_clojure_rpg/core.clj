@@ -8,10 +8,12 @@
 (defn start-dialog-loop [dialog]
   (di/display dialog)
   (let [next_dialog (di/choose dialog (Integer. (*input*)))]
-    (if next_dialog
+    (when next_dialog
       (start-dialog-loop next_dialog))))
 
 (defn -main
   "I don't do a whole lot ... yet."
   [& args]
-  (start-dialog-loop (parse-dialog-from-file (first args))))
+  (-> (first args)
+      parse-dialog-from-file
+      start-dialog-loop))
