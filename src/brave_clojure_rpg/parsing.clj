@@ -13,10 +13,10 @@
      "simple" (Dialogs/->SimpleDialog (:title arr)
                                       (:description arr)
                                       hero
-                                      (into [] (map
-                                                (fn [item] (parse-dialog hero item)) (:choices arr))))
+                                      (vec (map
+                                            #(parse-dialog hero %) (:choices arr))))
      "sideeffect" (Dialogs/->SideEffectDialog (:title arr) (:description arr 1) hero (:side-effect arr 2) (parse-dialog hero (:choices arr)))
-     "" [])))
+     [])))
 
 (defmulti parse-dialog-from-file (fn [filename] (last (clojure.string/split filename #"\."))))
 (defmethod parse-dialog-from-file "json"

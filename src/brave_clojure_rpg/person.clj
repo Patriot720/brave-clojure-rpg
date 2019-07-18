@@ -23,7 +23,7 @@
                          (vals (:weapons hero)))))
 
 (defn- critical-hit? [hero]
-  (= (+ 1 (rand-int (- 100 (get-critical-hit-chances hero)))) 1))
+  (= (inc (rand-int (- 100 (get-critical-hit-chances hero)))) 1))
 
 (defn- calculate-damage-to [hero weapon-damage]
   (let [base-dmg (if (critical-hit? hero)
@@ -56,4 +56,4 @@
         (assoc person :equipment (dissoc equipment weapon)))
       (throw (Exception. "Not a weapon"))))
   (add-to-inventory [person item]
-    (update person :equipment (fn [equipment item] (conj equipment item)) item)))
+    (update person :equipment conj item)))

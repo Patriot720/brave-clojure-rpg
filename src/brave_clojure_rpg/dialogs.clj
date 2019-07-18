@@ -3,7 +3,7 @@
   (:gen-class))
 
 (defn- apply-to-choice [choice args]
-  (map (fn [getter] (getter choice)) args))
+  (map #(% choice) args))
 
 (defn- print-choices [choices fmt & args]
   (doseq [choice  choices i (range 0 (count choices))]
