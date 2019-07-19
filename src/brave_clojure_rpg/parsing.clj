@@ -14,7 +14,7 @@
                                       (:description arr)
                                       hero
                                       (vec (map
-                                            #(parse-dialog hero %) (:choices arr))))
+                                            (partial parse-dialog hero) (:choices arr))))
      "sideeffect" (Dialogs/->SideEffectDialog (:title arr) (:description arr 1) hero (:side-effect arr 2) (parse-dialog hero (:choices arr)))
      [])))
 

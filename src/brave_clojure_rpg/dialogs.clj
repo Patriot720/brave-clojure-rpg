@@ -64,7 +64,7 @@
   (choose [dialog choice]
     (let [damaged-hero (person/damage hero side-damage)]
       (if (person/dead? damaged-hero) (->EmptyDialog)
-          (if-let [next_dialog (get choices  choice)] ; TODO duplcation from battledialog
+          (when-let [next_dialog (get choices  choice)] ; TODO duplcation from battledialog
             (pass-hero-to-next-dialog next_dialog damaged-hero))))))
 
 (defrecord BattleDialog [title description hero enemy
