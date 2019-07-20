@@ -21,7 +21,7 @@
      (some #{-2} (map  (fn [x] (:hp (bt/damage enemy 3)))
                        (range 1))))))
 
-(deftest equip-weapon-test
+(deftest equip-weapon-test ; TODO equipment slots
   (let [hero (bt/->Person "Hero" 10 {} {:lulz {:type "weapon" :damage 3} :wtf {:armor 5}})
         expected-hero (bt/->Person "Hero" 10 {:lulz {:type "weapon" :damage 3}} {:wtf {:armor 5}})]
     (is (= (bt/equip hero :lulz) expected-hero))

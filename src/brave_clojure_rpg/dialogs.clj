@@ -22,6 +22,11 @@
 (defn- pass-hero-to-next-dialog [dialog hero]
   (assoc  dialog :hero hero))
 
+(defn- simple-print [dialog]
+  (println (:title dialog))
+  (println (:description dialog))
+  (print-simple-choices (:choices dialog)))
+
 (defprotocol Dialog
   "Control dialog reactions"
   (display [x] "Print a dialog")
@@ -47,9 +52,7 @@
 (defrecord SimpleDialog [title description hero choices]
   Dialog
   (display [dialog]
-    (println title)
-    (println description)
-    (print-simple-choices choices))
+    (simple-print dialog))
   (choose [dialog choice]
     (if-let [next_dialog (get choices  choice)]
       (pass-hero-to-next-dialog next_dialog hero)
@@ -58,9 +61,7 @@
 (defrecord SideEffectDialog [title description hero side-damage choices]
   Dialog
   (display [dialog] ; TODO duplaction from simpledialog
-    (println title)
-    (println description)
-    (print-simple-choices choices))
+    (simple-print dialog))
   (choose [dialog choice]
     (let [damaged-hero (person/damage hero side-damage)]
       (if (person/dead? damaged-hero) (->EmptyDialog)

@@ -21,7 +21,11 @@
       (let [hero (->Person "Hero" 20 {:spear 10} {})
             dialog (Dialogs/->SimpleDialog "lulz" "wtf" hero [simple-empty-dialog])]
         (is (= (:hero (Dialogs/choose dialog 0))
-               hero))))))
+               hero)))))
+  (testing "SimpleDialog with side-effect"
+    (let [dialog (Dialogs/->SimpleDialog "" "" (map->Person {}) [])])))
+
+; TODO SideEffect requires choosing before applying side-effect !!!
 
 (deftest side-effect-dialog-test
   (testing "choose dialog 0 should damage hero"
