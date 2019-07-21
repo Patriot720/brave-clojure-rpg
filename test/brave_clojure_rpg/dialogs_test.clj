@@ -28,10 +28,20 @@
 ; TODO SideEffect requires choosing before applying side-effect !!!
 
 (deftest side-effect-dialog-test
-  (testing "choose dialog 0 should damage hero"
-    (let [dialog (Dialogs/->SideEffectDialog "lulz" "wtf"
-                                             (->Person "Hero" 20 {} {}) 5 [simple-empty-dialog])]
-      (is (= (:hp (:hero (Dialogs/choose dialog 0))) 15)))))
+  (let [dialog (Dialogs/->SideEffectDialog "lulz" "wtf"
+                                           (->Person "Hero" 20 {} {}) {} [simple-empty-dialog])
+        damage {:damage 5}
+        weapon {:weapon {:spear {:damage 10}}}]
+    (testing "choose dialog 0 should damage hero"
+      (let [dialog (update dialog :side-effects #(merge damage %))]
+        (is (= (:hp (:hero (Dialogs/choose dialog 0))) 15))))
+    (testing "acquiring weapons"
+      (let [dialog (update dialog :side-effects #(merge weapon %))]
+        (is (contains? (:equipment (:hero (Dialogs/choose dialog 0))) :spear))))
+    (testing "multiple side-effects"
+      (let [dialog (update dialog :side-effects #(merge damage weapon %))]
+        (is (contains? (:equipment (:hero (Dialogs/choose dialog 0))) :spear))
+        (is (= (:hp (:hero (Dialogs/choose dialog 0))) 15))))))
 
 (deftest battle-dialog-test
   (let [hero (->Person "Hero" 10 {:spear {:damage 25}} {})
