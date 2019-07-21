@@ -1,25 +1,21 @@
 (ns brave-clojure-rpg.person-test
   (:require [clojure.test :refer [testing deftest is]]
-            [brave-clojure-rpg.person :as bt]))
-(def hero
-  (bt/->Person "Hero" 10 {:spear 3} {:headgear {:armor 3}} 10))
-
-(def enemy
-  (bt/->Person "Gremlin" 1 {:hands 1} {:one-true-ring {:armor 50}} 10)); TODO to helpers
+            [brave-clojure-rpg.person :as bt]
+            [brave-clojure-rpg.test-helpers :refer [hero enemy]]))
 
 (deftest attack-test
   (is (= (:hp (bt/damage enemy 3))
-         -1/2)))
+         7/2)))
 
 (deftest attack-without-armor
   (let [enemy (assoc enemy :equipment {})]
-    (with-out-str (is (= (:hp (bt/damage enemy 3)) -2)))))
+    (with-out-str (is (= (:hp (bt/damage enemy 3)) 2)))))
 
 (deftest attack-critical-hit-test
   (let [enemy (assoc-in enemy [:equipment :one-true-ring :critical-hit] 99)]
     (is
-     (some #{-2} (map  (fn [x] (:hp (bt/damage enemy 3)))
-                       (range 1))))))
+     (some #{2} (map  (fn [x] (:hp (bt/damage enemy 3)))
+                      (range 1))))))
 
 (deftest equip-weapon-test ; TODO equipment slots
   (let [hero (bt/->Person "Hero" 10 {} {:lulz {:type "weapon" :damage 3} :wtf {:armor 5}} 15) ; TODO to helpers
