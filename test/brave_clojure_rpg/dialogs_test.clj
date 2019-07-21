@@ -18,34 +18,29 @@
       (is (= (Dialogs/choose dialog 0)  simple-empty-dialog)))
 
     (testing "choose dialog should return next dialog with HERO"
-      (let [hero (->Person "Hero" 20 {:spear 10} {})
-            dialog (Dialogs/->SimpleDialog "lulz" "wtf" hero [simple-empty-dialog])]
+      (let [dialog (Dialogs/->SimpleDialog "lulz" "wtf" helpers/hero [simple-empty-dialog])]
         (is (= (:hero (Dialogs/choose dialog 0))
-               hero)))))
-  (testing "SimpleDialog with side-effect"
-    (let [dialog (Dialogs/->SimpleDialog "" "" (map->Person {}) [])])))
-
-; TODO SideEffect requires choosing before applying side-effect !!!
+               helpers/hero))))))
 
 (deftest side-effect-dialog-test
   (let [dialog (Dialogs/->SideEffectDialog "lulz" "wtf"
-                                           (->Person "Hero" 20 {} {}) {} [simple-empty-dialog])
+                                           helpers/empty-hero {} [simple-empty-dialog])
         damage {:damage 5}
         weapon {:weapon {:spear {:damage 10}}}]
     (testing "choose dialog 0 should damage hero"
       (let [dialog (update dialog :side-effects #(merge damage %))]
-        (is (= (:hp (:hero (Dialogs/choose dialog 0))) 15))))
+        (is (= (:hp (:hero (Dialogs/choose dialog 0))) 5))))
     (testing "acquiring weapons"
       (let [dialog (update dialog :side-effects #(merge weapon %))]
         (is (contains? (:equipment (:hero (Dialogs/choose dialog 0))) :spear))))
     (testing "multiple side-effects"
       (let [dialog (update dialog :side-effects #(merge damage weapon %))]
         (is (contains? (:equipment (:hero (Dialogs/choose dialog 0))) :spear))
-        (is (= (:hp (:hero (Dialogs/choose dialog 0))) 15))))))
+        (is (= (:hp (:hero (Dialogs/choose dialog 0))) 5))))))
 
 (deftest battle-dialog-test
-  (let [hero (->Person "Hero" 10 {:spear {:damage 25}} {})
-        gremlin (->Person "Hero" 5 {:gg {:damage 2}} {})
+  (let [hero (assoc helpers/empty-hero :weapons {:spear {:damage 25}})
+        gremlin (assoc helpers/empty-enemy :weapons {:gg {:damage 2}})
         win-dialog (Dialogs/->SimpleDialog "f" "f" (map->Person {}) [])
         dialog (Dialogs/->BattleDialog "the battle" "" hero gremlin win-dialog)]
 
@@ -54,13 +49,13 @@
 
     (testing "Printing"
       (is (= (helpers/trim-carriage-return (with-out-str (Dialogs/display dialog)))
-             "Battling with  Hero\nYour hp  10\nEnemy hp  5\nAttack with: \n\n0 : :spear 25 Damage\n"))))
+             "Battling with  Gremlin\nYour hp  10\nEnemy hp  5\nAttack with: \n\n0 : :spear 25 Damage\n"))))
 
   (testing "go through whole losing BattleDialog"
     (let
      [dialog (Dialogs/->BattleDialog "" ""
-                                     (->Person "Hero" 10 {:spear {:damage 5}} {})
-                                     (->Person "Gremlin" 25 {:g {:damage 5}} {})
+                                     (->Person "Hero" 10 {:spear {:damage 5}} {} 10)
+                                     (->Person "Gremlin" 25 {:g {:damage 5}} {} 50); TODO to helpers
                                      (Dialogs/->SimpleDialog "" "" (map->Person {}) []))
       expected (-> (Dialogs/choose dialog 0)
                    (Dialogs/choose 0))]

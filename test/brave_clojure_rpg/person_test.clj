@@ -2,10 +2,10 @@
   (:require [clojure.test :refer [testing deftest is]]
             [brave-clojure-rpg.person :as bt]))
 (def hero
-  (bt/->Person "Hero" 10 {:spear 3} {:headgear {:armor 3}}))
+  (bt/->Person "Hero" 10 {:spear 3} {:headgear {:armor 3}} 10))
 
 (def enemy
-  (bt/->Person "Gremlin" 1 {:hands 1} {:one-true-ring {:armor 50}}))
+  (bt/->Person "Gremlin" 1 {:hands 1} {:one-true-ring {:armor 50}} 10)); TODO to helpers
 
 (deftest attack-test
   (is (= (:hp (bt/damage enemy 3))
@@ -22,8 +22,8 @@
                        (range 1))))))
 
 (deftest equip-weapon-test ; TODO equipment slots
-  (let [hero (bt/->Person "Hero" 10 {} {:lulz {:type "weapon" :damage 3} :wtf {:armor 5}})
-        expected-hero (bt/->Person "Hero" 10 {:lulz {:type "weapon" :damage 3}} {:wtf {:armor 5}})]
+  (let [hero (bt/->Person "Hero" 10 {} {:lulz {:type "weapon" :damage 3} :wtf {:armor 5}} 15) ; TODO to helpers
+        expected-hero (bt/->Person "Hero" 10 {:lulz {:type "weapon" :damage 3}} {:wtf {:armor 5}} 15)]
     (is (= (bt/equip hero :lulz) expected-hero))
     (is (thrown? Exception (bt/equip hero :wtf)))))
 (deftest add-to-inventory-test

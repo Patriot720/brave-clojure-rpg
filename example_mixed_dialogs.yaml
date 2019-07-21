@@ -1,6 +1,7 @@
 hero:
     name : Hero
     hp : 20
+    max-hp: 30
     weapons:
         spear:
             damage: 10
@@ -11,6 +12,7 @@ dialogs:
     enemy:
         - name : "Gremlin"
           hp : 20
+          max-hp: 35
           weapons:
               hands:
                   damage: 25

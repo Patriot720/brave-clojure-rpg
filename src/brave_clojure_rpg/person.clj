@@ -38,7 +38,7 @@
   (has? [person item])
   (equip [person weapon]))
 
-(defrecord Person [name hp weapons equipment]
+(defrecord Person [name hp weapons equipment max-hp]
   Warrior
   (dead? [person]
     (if (<= hp  0) true false))

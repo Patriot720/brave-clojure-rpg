@@ -2,8 +2,8 @@
     "hero": {
         "name": "Ivan", #// TODO Choosing a name Game menu
         "hp": 10, #// TODO Increase hp with progress
-        "weapons": {}, # TODO Acquire weapons SideEffectDialog
-        "equipment": {}
+        "weapons": {}, # TODO MAX-HP
+        "equipment": {} 
     },
     "dialogs": {
         [
