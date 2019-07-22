@@ -1,6 +1,7 @@
 (ns brave-clojure-rpg.parsing-test
   (:require [brave-clojure-rpg.parsing :refer [parse-dialog-from-file]]
             [clojure.test :refer [testing deftest is]]
+            [brave-clojure-rpg.test-helpers :as helpers]
             [brave-clojure-rpg.dialogs :as Dialogs]
             [brave-clojure-rpg.person :refer [->Person map->Person]]))
 
@@ -18,13 +19,12 @@
           (is (=  (parse-dialog-from-file "example_dialog.yaml") expected-dialog))))))
 
   (testing "Battle/Simple dialogs "
-    (let [hero (->Person "Hero" 20 {:spear {:damage 10}} nil 30) ; TODO to helpers
-          expected (Dialogs/->BattleDialog "Battle with gremlin" ""
-                                           hero
-                                           (->Person "Gremlin" 20 {:hands {:damage 25 :critical-hit 15}} {} 35) ; TODO to helpers
+    (let [expected (Dialogs/->BattleDialog "Battle with gremlin" ""
+                                           helpers/hero
+                                           helpers/enemy
                                            (Dialogs/->SimpleDialog
-                                            "Winner" "Chicken dinner" hero
-                                            [(Dialogs/->SideEffectDialog "Damaged" "For 5 dmg" hero 5 [])]))]
+                                            "Winner" "Chicken dinner" helpers/hero
+                                            [(Dialogs/->SideEffectDialog "Damaged" "For 5 dmg" helpers/hero 5 [])]))]
       (testing "Should return battle dialog with simple nested win dialog"
         (testing "JSON"
           (is (=  (parse-dialog-from-file "example_mixed_dialogs.json") expected)))

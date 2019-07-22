@@ -1,12 +1,17 @@
 {
     "hero": {
         "name": "Hero",
-        "hp": 20,
-        "max-hp": 30,
+        "hp": 10,
+        "max-hp": 15,
         "weapons": {
             "spear":{
-                "damage": 10
+                "damage": 3
                 }
+        },
+        "equipment":{
+            "headgear":{
+                "armor": 3
+            }
         }
     },
     "dialogs": {
@@ -15,15 +20,16 @@
         "description":"",
          "enemy":{
             "name": "Gremlin",
-            "hp": 20,
-            "max-hp": 35,
+            "hp": 5,
+            "max-hp": 10,
             "weapons": {
                 "hands": {
-                    "damage":25,
-                    "critical-hit": 15
+                    "damage":1,
                 }
             },
-            "equipment": {}
+            "equipment": {
+                "one-true-ring":{"armor":50}
+            }
         },
         "win-dialog":{
             "type": "Simple",

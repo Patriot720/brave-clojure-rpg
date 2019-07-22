@@ -17,7 +17,8 @@
 ;                damaged-hero
 ;                damaged-enemy
 ;                win-dialog))
-(defn condt-f [f result clauses]
+
+(defn- condt-f [f result clauses]
   (case (count clauses)
     1 (concat result (list true (first clauses)))
     0 result
