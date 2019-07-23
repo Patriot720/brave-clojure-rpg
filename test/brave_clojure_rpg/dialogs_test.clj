@@ -54,8 +54,8 @@
   (testing "go through whole losing BattleDialog"
     (let
      [dialog (Dialogs/->BattleDialog "" ""
-                                     (->Person "Hero" 10 {:spear {:damage 5}} {} 10)
-                                     (->Person "Gremlin" 25 {:g {:damage 5}} {} 50); TODO to helpers
+                                     helpers/empty-enemy
+                                     helpers/hero
                                      (Dialogs/->SimpleDialog "" "" (map->Person {}) []))
       expected (-> (Dialogs/choose dialog 0)
                    (Dialogs/choose 0))]

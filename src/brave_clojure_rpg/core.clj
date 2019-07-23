@@ -7,9 +7,8 @@
 
 (defn start-dialog-loop [dialog]
   (di/display dialog)
-  (let [next_dialog (di/choose dialog (Integer. (*input*)))]
-    (when next_dialog
-      (start-dialog-loop next_dialog))))
+  (when-let  [next_dialog (di/choose dialog (Integer. (*input*)))]
+    (start-dialog-loop next_dialog)))
 
 (defn -main
   "I don't do a whole lot ... yet."

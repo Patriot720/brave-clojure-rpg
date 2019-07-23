@@ -57,12 +57,14 @@
     (if-let [next_dialog (get choices  choice)]
       (pass-hero-to-next-dialog next_dialog hero)
       (->EmptyDialog))))
+
 (defn- apply-effects [hero side-effects]
   (loop [side-keys (keys side-effects) hero hero]
     (case (first side-keys)
       :damage (recur (next side-keys) (person/damage hero (:damage side-effects)))
       :weapon (recur (next side-keys) (person/add-to-inventory hero (:weapon side-effects)))
       hero)))
+
 (defrecord SideEffectDialog [title description hero side-effects choices]
   Dialog
   (display [dialog] ; TODO duplaction from simpledialog
