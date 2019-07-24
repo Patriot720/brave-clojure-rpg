@@ -2,8 +2,8 @@
     "hero": {
         "name": "Ivan", #// TODO Choosing a name Game menu
         "hp": 10, #// TODO Increase max-hp with progress
-        "weapons": {}, # TODO MAX-HP
-        "equipment": {} # TODO Loot from battles
+        "equipment": {}, # TODO MAX-HP
+        "inventory": {} # TODO Loot from battles
     },
     "dialogs": {
         [

@@ -30,17 +30,17 @@
     (testing "choose dialog 0 should damage hero"
       (let [dialog (update dialog :side-effects #(merge damage %))]
         (is (= (:hp (:hero (Dialogs/choose dialog 0))) 5))))
-    (testing "acquiring weapons"
+    (testing "acquiring equipment"
       (let [dialog (update dialog :side-effects #(merge weapon %))]
-        (is (contains? (:equipment (:hero (Dialogs/choose dialog 0))) :spear))))
+        (is (contains? (:inventory (:hero (Dialogs/choose dialog 0))) :spear))))
     (testing "multiple side-effects"
       (let [dialog (update dialog :side-effects #(merge damage weapon %))]
-        (is (contains? (:equipment (:hero (Dialogs/choose dialog 0))) :spear))
+        (is (contains? (:inventory (:hero (Dialogs/choose dialog 0))) :spear))
         (is (= (:hp (:hero (Dialogs/choose dialog 0))) 5))))))
 
 (deftest battle-dialog-test
-  (let [hero (assoc helpers/empty-hero :weapons {:spear {:damage 25}})
-        gremlin (assoc helpers/empty-enemy :weapons {:gg {:damage 2}})
+  (let [hero (assoc helpers/empty-hero :equipment {:weapon {:spear {:damage 25}}}) ; TODO change to equip api
+        gremlin (assoc helpers/empty-enemy :equipment {:weapon {:gg {:damage 2}}})
         win-dialog (Dialogs/->SimpleDialog "f" "f" (map->Person {}) [])
         dialog (Dialogs/->BattleDialog "the battle" "" hero gremlin win-dialog)]
 
@@ -52,21 +52,25 @@
              "Battling with  Gremlin\nYour hp  10\nEnemy hp  5\nAttack with: \n\n0 : :spear 25 Damage\n"))))
 
   (testing "go through whole losing BattleDialog"
-    (let
-     [dialog (Dialogs/->BattleDialog "" ""
-                                     helpers/empty-enemy
+    (let ; TODO test getting weapon with empty-hero
+     [dialog (Dialogs/->BattleDialog "" "" ; TODO attack should'nt be 0 ever
+                                     helpers/weak-enemy
                                      helpers/hero
                                      (Dialogs/->SimpleDialog "" "" (map->Person {}) []))
       expected (-> (Dialogs/choose dialog 0)
                    (Dialogs/choose 0))]
-                   ; TODO passes not 100 percent of time (critical-hit)
       (is (= expected (Dialogs/->EmptyDialog))))))
+
+; (deftest gamemenu-dialog-test
+;   (testing "Equipping equipment"
+;     (is (= (Dialogs/choose 0 (Dialogs/->GameMenuDialog helpers/hero))
+;            (Dialogs/->inventoryDialog helpers/hero)))))
 
 (deftest condition-dialog-test
   (testing "If hero has milk"
     (let [dialog (Dialogs/->ConditionDialog "title" "win" "lose" helpers/hero :milk {:lul 25} simple-empty-dialog)]
       (testing "Doesn't have the milk - no spear"
-        (is (not (contains? (:equipment (:hero (Dialogs/choose dialog 0))) :lul))))
-      (testing "give spear" ; TODO different types of equipment with different effects
-        (let [dialog (assoc-in dialog [:hero :equipment] {:milk 10})]
-          (is (contains? (:equipment (:hero (Dialogs/choose dialog 0))) :lul)))))))
+        (is (not (contains? (:inventory (:hero (Dialogs/choose dialog 0))) :lul))))
+      (testing "give spear" ; TODO different types of inventory with different effects
+        (let [dialog (assoc-in dialog [:hero :inventory] {:milk 10})]
+          (is (contains? (:inventory (:hero (Dialogs/choose dialog 0))) :lul)))))))

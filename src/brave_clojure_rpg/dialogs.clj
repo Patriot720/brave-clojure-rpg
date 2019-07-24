@@ -17,8 +17,8 @@
   (print-choices choices "%d : %s %s Damage" first (comp :damage last)))
 
 (defn- get-weapon-dmg [person choice]
-  (get-in person [:weapons (nth (keys (:weapons person)) choice 0) :damage]))
-
+  (get-in person [:equipment :weapon (first (keys (:weapon (:equipment person)))) :damage]))
+; TODO get-weapon-dmg test OR person get-damage
 (defn- pass-hero-to-next-dialog [dialog hero]
   (assoc  dialog :hero hero))
 
@@ -84,9 +84,11 @@
     (println "Your hp " (:hp hero))
     (println "Enemy hp " (:hp enemy))
     (println "Attack with: \n")
-    (print-weapon-choices (:weapons hero)))
+    (print-weapon-choices (:equipment hero)))
 
   (choose [dialog choice]
+    (println hero)
+    (println (get-weapon-dmg hero 0))
     (let [damaged-hero (person/damage hero (get-weapon-dmg enemy 0))
           damaged-enemy (person/damage enemy (get-weapon-dmg hero choice))]
       (condt person/dead?

@@ -9,7 +9,7 @@
 (defn- calculate-armor [person]
   (reduce-map-or-maps #(:armor (first %1) 0)
                       #(+ (:armor %1) (:armor %2))
-                      (vals (:equipment person))))
+                      (vals (:inventory person))))
 
 (defn- armor-deflection [hero]
   (/ (calculate-armor hero) 100))
@@ -17,10 +17,10 @@
 (defn- get-critical-hit-chances [hero]
   (+ (reduce-map-or-maps #(:critical-hit (first %1) 0)
                          #(+ (:critical-hit %1) (:critical-hit %2))
-                         (vals (:equipment hero))) ; TODO equipped weapons
+                         (vals (:inventory hero))) ; TODO equipped equipment
      (reduce-map-or-maps #(:critical-hit (first %1) 0)
                          #(+ (:critical-hit %1) (:critical-hit %2))
-                         (vals (:weapons hero)))))
+                         (vals (:equipment hero)))))
 
 (defn- critical-hit? [hero]
   (= (inc (rand-int (- 100 (get-critical-hit-chances hero)))) 1))
@@ -38,7 +38,7 @@
   (has? [person item])
   (equip [person weapon]))
 
-(defrecord Person [name hp weapons equipment max-hp]
+(defrecord Person [name hp equipment inventory max-hp]
   Warrior
   (dead? [person]
     (if (<= hp  0) true false))
@@ -47,13 +47,13 @@
       (println (:name person) " attacked for " damage " damage")
       (assoc person :hp (- hp damage))))
   (has? [person item]
-    (if (or (contains? weapons item) (contains? equipment item))
+    (if (or (contains? equipment item) (contains? inventory item))
       true
       false))
   (equip [person weapon]
-    (if (= (:type (weapon equipment)) "weapon")
-      (let [person (assoc-in person [:weapons weapon] (weapon equipment))]
-        (assoc person :equipment (dissoc equipment weapon)))
+    (if (= (:type (weapon inventory)) "weapon")
+      (let [person (assoc-in person [:equipment weapon] (weapon inventory))]
+        (assoc person :inventory (dissoc inventory weapon)))
       (throw (Exception. "Not a weapon"))))
   (add-to-inventory [person item]
-    (update person :equipment conj item)))
+    (update person :inventory conj item)))

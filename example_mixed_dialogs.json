@@ -3,47 +3,51 @@
         "name": "Hero",
         "hp": 10,
         "max-hp": 15,
-        "weapons": {
-            "spear":{
-                "damage": 3
+        "equipment": {
+            "weapon": {
+                "spear": {
+                    "damage": 3
                 }
+            },
         },
-        "equipment":{
-            "headgear":{
+        "inventory": {
+            "headgear": {
                 "armor": 3
             }
         }
     },
     "dialogs": {
         "type": "battle",
-        "title":"Battle with gremlin",
-        "description":"",
-         "enemy":{
+        "title": "Battle with gremlin",
+        "description": "",
+        "enemy": {
             "name": "Gremlin",
             "hp": 5,
             "max-hp": 10,
-            "weapons": {
-                "hands": {
-                    "damage":1,
+            "equipment": {
+                "weapon": {
+                    "hands": {
+                        "damage": 1,
+                    }
                 }
             },
-            "equipment": {
-                "one-true-ring":{"armor":50}
+            "inventory": {
+                "one-true-ring": {
+                    "armor": 50
+                }
             }
         },
-        "win-dialog":{
+        "win-dialog": {
             "type": "Simple",
-            "title":"Winner",
-            "description":"Chicken dinner",
-            "choices": [
-                {
-                    "type":"SideEffect",
-                    "title":"Damaged",
-                    "description":"For 5 dmg",
-                    "side-effect":5,
-                    "choices":[]
-                }
-            ]
+            "title": "Winner",
+            "description": "Chicken dinner",
+            "choices": [{
+                "type": "SideEffect",
+                "title": "Damaged",
+                "description": "For 5 dmg",
+                "side-effect": 5,
+                "choices": []
+            }]
         }
     }
 }

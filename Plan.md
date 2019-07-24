@@ -3,7 +3,7 @@
 Text based-rpg with:
 - Armor mechanics
 - critical hit and stuff
-- equipment for attack and defence
+- inventory for attack and defence
 - dialog tree system
 - text moves based battle mechanic
 - multiple weapon choices

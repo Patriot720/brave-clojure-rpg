@@ -3,13 +3,16 @@
             [brave-clojure-rpg.dialogs :as Dialogs]))
 
 (def hero
-  (->Person "Hero" 10 {:spear {:damage 3}} {:headgear {:armor 3}} 15))
+  (->Person "Hero" 10 {:weapon {:spear {:damage 3}}} {:headgear {:armor 3}} 15))
 
 (def empty-hero
   (->Person "Hero" 10 {} {} 15))
 
 (def enemy
-  (->Person "Gremlin" 5 {:hands {:damage 1}} {:one-true-ring {:armor 50}} 10))
+  (->Person "Gremlin" 5 {:weapon {:hands {:damage 1}}} {:one-true-ring {:armor 50}} 10))
+
+(def weak-enemy
+  (->Person "Gremlin" 5 {:weapon {:hands {:damage 1}}} {} 10))
 
 (def empty-enemy
   (->Person "Gremlin" 5 {} {} 10))
