@@ -6,15 +6,14 @@
 (defn- apply-to-choice [choice args]
   (map #(% choice) args))
 
-(defn- print-choices [choices fmt & args]
+(defn- print-choices [choices fmt & apply-functions]
   (doseq [choice  choices i (range 0 (count choices))]
-    (println (apply format fmt i (apply-to-choice choice args)))))
+    (println (apply format fmt i (apply-to-choice choice apply-functions)))))
 
 (defn- print-simple-choices [choices]
-  (print-choices choices "%d:%s" :title))
+  (print-choices choices "%d:%s" :title)) ; TODO unclear
 
-(defn- print-weapon-choices [choices]
-  (print-choices choices "%d : %s %s Damage" first (comp :damage last)))
+(defn- print-weapon-choices [choices])
 
 (defn- get-weapon-dmg [person choice]
   (get-in person [:equipment :weapon (first (keys (:weapon (:equipment person)))) :damage]))
@@ -84,11 +83,11 @@
     (println "Your hp " (:hp hero))
     (println "Enemy hp " (:hp enemy))
     (println "Attack with: \n")
-    (print-weapon-choices (:equipment hero)))
+    (let [weapon (:weapon (:equipment hero))
+          weapon-name (first (keys weapon))] ; TODO array instead of assoc for weapon
+      (println "0:" weapon-name (:damage (weapon-name weapon)) "damage")))
 
   (choose [dialog choice]
-    (println hero)
-    (println (get-weapon-dmg hero 0))
     (let [damaged-hero (person/damage hero (get-weapon-dmg enemy 0))
           damaged-enemy (person/damage enemy (get-weapon-dmg hero choice))]
       (condt person/dead?

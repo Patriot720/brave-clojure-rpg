@@ -36,7 +36,8 @@
   (damage [person damage])
   (add-to-inventory [person item])
   (has? [person item])
-  (equip [person weapon]))
+  (equip [person weapon])
+  (equipped? [person thing]))
 
 (defrecord Person [name hp equipment inventory max-hp]
   Warrior
@@ -46,8 +47,13 @@
     (let [damage (calculate-damage-to person weapon-damage)]
       (println (:name person) " attacked for " damage " damage")
       (assoc person :hp (- hp damage))))
+  (equipped? [person thing]
+    (or (contains? (:headgear equipment) thing)
+        (contains? (:weapon equipment) thing)
+        (contains? (:ring equipment) thing)
+        (contains? (:armor equipment) thing)))
   (has? [person item]
-    (if (or (contains? equipment item) (contains? inventory item))
+    (if (or (equipped? person item) (contains? inventory item))
       true
       false))
   (equip [person weapon]

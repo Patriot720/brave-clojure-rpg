@@ -49,7 +49,7 @@
 
     (testing "Printing"
       (is (= (helpers/trim-carriage-return (with-out-str (Dialogs/display dialog)))
-             "Battling with  Gremlin\nYour hp  10\nEnemy hp  5\nAttack with: \n\n0 : :spear 25 Damage\n"))))
+             "Battling with  Gremlin\nYour hp  10\nEnemy hp  5\nAttack with: \n\n0: :spear 25 damage\n"))))
 
   (testing "go through whole losing BattleDialog"
     (let ; TODO test getting weapon with empty-hero
