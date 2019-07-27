@@ -31,9 +31,13 @@
                    weapon-damage)]
     (- base-dmg (* (armor-deflection hero) base-dmg))))
 
+(defn- get-damage [person]
+  (get-in person [:equipment :weapon (first (keys (:weapon (:equipment person)))) :damage]))
+
 (defprotocol Warrior
   (dead? [person])
   (damage [person damage])
+  (attack [defender attacker])
   (add-to-inventory [person item])
   (has? [person item])
   (equip [person weapon])
@@ -47,6 +51,8 @@
     (let [damage (calculate-damage-to person weapon-damage)]
       (println (:name person) " attacked for " damage " damage")
       (assoc person :hp (- hp damage))))
+  (attack [defender attacker]
+    (damage defender (get-damage attacker)))
   (equipped? [person thing]
     (or (contains? (:headgear equipment) thing)
         (contains? (:weapon equipment) thing)
