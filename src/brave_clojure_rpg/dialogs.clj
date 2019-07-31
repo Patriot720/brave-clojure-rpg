@@ -3,26 +3,15 @@
             [brave-clojure-rpg.helpers :refer [condt]])
   (:gen-class))
 
-(defn- apply-to-choice [choice args]
-  (map #(% choice) args))
-
-(defn- print-choices [choices fmt & apply-functions]
-  (doseq [choice  choices i (range 0 (count choices))]
-    (println (apply format fmt i (apply-to-choice choice apply-functions)))))
-
-(defn- print-simple-choices [choices]
-  (print-choices choices "%d:%s" :title)) ; TODO unclear
-
-(defn- print-weapon-choices [choices])
-
-; TODO get-weapon-dmg test OR person get-damage
 (defn- pass-hero-to-next-dialog [dialog hero]
   (assoc  dialog :hero hero))
 
 (defn- simple-print [dialog]
   (println (:title dialog))
   (println (:description dialog))
-  (print-simple-choices (:choices dialog)))
+  (let [choices (:choices dialog)]
+    (doseq [choice choices i (range (count choices))]
+      (printf "%d:%s\n" i (:title choice)))))
 
 (defprotocol Dialog
   "Control dialog reactions"
@@ -64,13 +53,13 @@
 
 (defrecord SideEffectDialog [title description hero side-effects choices]
   Dialog
-  (display [dialog] ; TODO duplaction from simpledialog
+  (display [dialog]
     (simple-print dialog))
   (choose [dialog choice]
-    (let [damaged-hero (apply-effects hero side-effects)]
-      (if (person/dead? damaged-hero) (->EmptyDialog)
-          (when-let [next_dialog (get choices  choice)] ; TODO duplcation from battledialog
-            (pass-hero-to-next-dialog next_dialog damaged-hero))))))
+    (let [updated-hero (apply-effects hero side-effects)]
+      (if (person/dead? updated-hero) (->EmptyDialog)
+          (when-let [next_dialog (get choices  choice)]
+            (pass-hero-to-next-dialog next_dialog updated-hero))))))
 
 (defrecord BattleDialog [title description hero enemy
                          win-dialog]
